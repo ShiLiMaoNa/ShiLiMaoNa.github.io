@@ -794,6 +794,7 @@ code,
 }
 table:not(.hljs-ln) {
     margin: 15px 0;
+    width: 100%;
 }
 table:not(.hljs-ln) td:nth-child(even) {
     background: #c7e0fb4d;
