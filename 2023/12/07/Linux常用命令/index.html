@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>Linux常用命令 | LiMao の学习日常</title>
+    <meta name="author" content="LiMao" />
+    <meta name="description" content="welcome to my learning daily life" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.org" />
+<script src="https://cdn.staticfile.org/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.org/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.org/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.org/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.org/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.org/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>LIMAO の学习日常</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;LIMAO の学习日常</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>Linux常用命令</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/12/7
+        </span>
+        
+        <span class="category">
+            <a href="/categories/Linux/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Linux
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" style="color: #ff7d73">Linux常用命令</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="Linux常用命令"><a href="#Linux常用命令" class="headerlink" title="Linux常用命令"></a>Linux常用命令</h1><h2 id="1-vi-vim编辑器"><a href="#1-vi-vim编辑器" class="headerlink" title="1.vi&#x2F;vim编辑器"></a>1.vi&#x2F;vim编辑器</h2><ul>
+<li>使用yum install -y vim* 安装vim编辑器</li>
+</ul>
+<h3 id="1-1三种状态："><a href="#1-1三种状态：" class="headerlink" title="1.1三种状态："></a>1.1三种状态：</h3><ol>
+<li><p>命令模式：控制屏幕光标的移动，字符、字或行的删除，移动复制某区段及进入Insert mode下，或者到 last line mode</p>
+</li>
+<li><p>插入模式：只有在Insert mode下，才可以做文字输入，按「ESC」键可回到命令行模式。</p>
+</li>
+<li><p>底行模式：将文件保存或退出vi，也可以设置编辑环境，如寻找字符串、列出行号……等。</p>
+<p>  不过一般我们在使用时把vi简化成两个模式，就是将底行模式（last line mode）也</p>
+</li>
+</ol>
+<h3 id="1-2插入命令"><a href="#1-2插入命令" class="headerlink" title="1.2插入命令"></a>1.2插入命令</h3><ul>
+<li><p>i 在光标前插入</p>
+</li>
+<li><p>I 在光标当前行开始插入</p>
+</li>
+<li><p>a 在光标后插入</p>
+</li>
+<li><p>A 在光标当前行末尾插入</p>
+</li>
+<li><p>o 在光标当前行的下一行插入新行</p>
+</li>
+<li><p>O 在光标当前行的上一行插入新行</p>
+</li>
+</ul>
+<h3 id="1-3定位命令"><a href="#1-3定位命令" class="headerlink" title="1.3定位命令"></a>1.3定位命令</h3><ul>
+<li>:set nu   显示行号</li>
+<li>:set nonu 取消行号</li>
+<li>:n    到文本的第n行</li>
+<li>gg   到文本的第一行</li>
+<li>G 到文本的最后一行</li>
+</ul>
+<h3 id="1-4替换和取消命令"><a href="#1-4替换和取消命令" class="headerlink" title="1.4替换和取消命令"></a>1.4替换和取消命令</h3><ul>
+<li>u undo，取消上一步操作(windows下ctrl+z)</li>
+<li>ctrl + r    redo，返回到undo之前 (windows下ctrl+y)</li>
+<li>r 替换光标所在处的字符</li>
+<li>R 从光标所在处开始替换，按Esc键结束</li>
+</ul>
+<h3 id="1-5删除命令"><a href="#1-5删除命令" class="headerlink" title="1.5删除命令"></a>1.5删除命令</h3><ul>
+<li>x 删除光标所在处字符</li>
+<li>nx   删除光标所在处后的n个字符</li>
+<li>dd   删除光标所在行。</li>
+<li>ndd 删除n行</li>
+<li>dG   删除光标所在行到末尾行的所以内容</li>
+<li>D    删除光标所在处到行尾的内容</li>
+<li>:5,7d 删除指定范围的行</li>
+</ul>
+<h3 id="1-6常用快捷键"><a href="#1-6常用快捷键" class="headerlink" title="1.6常用快捷键"></a>1.6常用快捷键</h3><ul>
+<li>Shift+ zz     保存退出，与“:wq”作用相同</li>
+<li>v        进入字符可视模式</li>
+<li>V 或 Shift + v  进入行可视模式</li>
+<li>Ctrl + v      进入块可视模式</li>
+<li>ctrl+b:屏幕往后移动一页</li>
+<li>ctrl+f:屏幕往前移动一页</li>
+<li>按”$”符号将光标移动到行尾</li>
+<li>按”^”将光标移到行头</li>
+<li>yy：复制光标所在行到缓冲区。</li>
+<li>nyy：例如，「6yy」表示拷贝从光标所在的该行”往下数”6行文字。 　　</li>
+<li>注意：所有与”y”有关的复制命令都必须与”p”配合才能完成复制与粘贴功能。</li>
+<li>用”&#x2F;“加上要查找的内容.例如”&#x2F;hello”或者是”?hello”也是可以的.</li>
+<li>替换：在底行模式下使用“s&#x2F;原字符&#x2F;新字符&#x2F;g” 代表当前行所有 如果想全局替换，s变为%s</li>
+</ul>
+<h3 id="1-7vim"><a href="#1-7vim" class="headerlink" title="1.7vim"></a>1.7vim</h3><p>1、多级撤消</p>
+<p>我们知道在vi里，按 u只能撤消上次命令，而在vim里可以无限制的撤消。</p>
+<p>2、易用性</p>
+<p>vi只能运行于unix中，而vim不仅可以运行于unix,windows ,mac等多操作平台。</p>
+<p>3、语法加亮</p>
+<p>vim可以用不同的颜色来加亮你的代码。</p>
+<p>4、可视化操作</p>
+<p>就是说vim不仅可以在终端运行，也可以运行于x window、 mac os、 windows。</p>
+<p>5、对vi的完全兼容</p>
+<p>某些情况下，你可以把vim当成vi来使用</p>
+<h2 id="2-用户权限管理-组管理和时间管理"><a href="#2-用户权限管理-组管理和时间管理" class="headerlink" title="2.用户权限管理,组管理和时间管理"></a>2.用户权限管理,组管理和时间管理</h2><h3 id="2-1用户管理"><a href="#2-1用户管理" class="headerlink" title="2.1用户管理"></a>2.1用户管理</h3><h4 id="2-1-1保存用户信息的文件-etc-passwd"><a href="#2-1-1保存用户信息的文件-etc-passwd" class="headerlink" title="2.1.1保存用户信息的文件: /etc/passwd"></a>2.1.1保存用户信息的文件: <code>/etc/passwd</code></h4><p><code>文件详解</code>： root : x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</p>
+<p>用户名   用户登陆系统的用户名</p>
+<p>密码  密码位</p>
+<p>UID  用户标示号</p>
+<p>GID  默认组标示号</p>
+<p>描述信息 存放用户的描述信息</p>
+<p>宿主目录 用户登陆系统的默认目录，默认是在&#x2F;home&#x2F;下</p>
+<p>命令解析器   用户使用的Shell，默认是bash</p>
+<h4 id="2-1-2保存用户密码信息的文件：-etc-shadow"><a href="#2-1-2保存用户密码信息的文件：-etc-shadow" class="headerlink" title="2.1.2保存用户密码信息的文件：/etc/shadow"></a>2.1.2保存用户密码信息的文件：<code>/etc/shadow</code></h4><p><code>文件详解</code>：</p>
+<p>​    用户名  登陆系统的用户名</p>
+<p>​	密码  加密密码</p>
+<p>​	最后一次修改时间 用户最后一次修改密码距现在的天数，从1970-1-1起</p>
+<p>​	最小时间间隔 两次修改密码之间的最小天数</p>
+<p>​	最大时间间隔 密码有效天数</p>
+<p>​	警告时间 从系统警告到密码失效的天数</p>
+<p>​	账号闲置时间 账号闲置时间</p>
+<p>​	失效时间 账号失效的绝对天数（从1970-01-01开始）</p>
+<p>​	标志  保留字段</p>
+<h4 id="2-1-3创建用户命令：useradd"><a href="#2-1-3创建用户命令：useradd" class="headerlink" title="2.1.3创建用户命令：useradd"></a>2.1.3创建用户命令：useradd</h4><p>​	-u 指定用户ID（uid）</p>
+<p>​	-g 指定所属的组名（gid） 主组</p>
+<p>​	-G 指定多个组，用逗号“，”分开（Groups） 其他组</p>
+<p>​	-c 用户描述（comment） ;</p>
+<p>​	-e 失效时间（expire date）</p>
+<p>​	最后设置添加用户名</p>
+<p>创建：</p>
+<p>useradd -u 1888 -g users -G sys,root -c “描述信息” uqy142a</p>
+<p>useradd  uqy142b</p>
+<p>useradd  uqy142c</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 LiMao の学习日常
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;LiMao
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+    <canvas
+        id="fireworks"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+    ></canvas>
+    <script src="https://cdn.staticfile.org/animejs/3.2.1/anime.min.js"></script>
+    <script src="/js/fireworks.min.js"></script>
+
+
+    <canvas
+        id="background"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+    ></canvas>
+    <script src="/js/background.min.js"></script>
+</body>
+</html>
