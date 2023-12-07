@@ -53,7 +53,7 @@
     <canvas id="canvas" style="position: fixed; width: 1500px; height: 2000px;">你的浏览器不支持canvas</canvas>
 
 
-    <!-- <script src="/js/myPet.js??v=1701943321944"></script> -->
+    <!-- <script src="/js/myPet.js??v=1701945881269"></script> -->
     <div id="layout">
         <transition name="fade">
             <div id="loading" v-show="loading">
@@ -190,7 +190,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" style="color: #ffa2c4">Linux常用命令</a>
+                <a href="/tags/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" style="color: #00bcd4">Linux常用命令</a>
             </span>
             
         </span>
@@ -219,8 +219,25 @@
 <li><a href="#211%E4%BF%9D%E5%AD%98%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E7%9A%84%E6%96%87%E4%BB%B6-etcpasswd">2.1.1保存用户信息的文件: <code>/etc/passwd</code></a></li>
 <li><a href="#212%E4%BF%9D%E5%AD%98%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%A1%E6%81%AF%E7%9A%84%E6%96%87%E4%BB%B6etcshadow">2.1.2保存用户密码信息的文件：<code>/etc/shadow</code></a></li>
 <li><a href="#213%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%91%BD%E4%BB%A4useradd">2.1.3创建用户命令：useradd</a></li>
+<li><a href="#214%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%91%BD%E4%BB%A4usermod">2.1.4修改用户命令：usermod</a></li>
+<li><a href="#215%E5%88%A0%E9%99%A4%E7%94%A8%E6%88%B7%E5%91%BD%E4%BB%A4userdeluser-delete">2.1.5删除用户命令：userdel（user delete）</a></li>
 </ul>
 </li>
+<li><a href="#22%E7%BB%84%E7%AE%A1%E7%90%86">2.2组管理</a><ul>
+<li><a href="#221%E4%BF%9D%E5%AD%98%E7%94%A8%E6%88%B7%E7%BB%84%E7%9A%84%E6%96%87%E4%BB%B6etcgroup">2.2.1保存用户组的文件：&#x2F;etc&#x2F;group</a></li>
+<li><a href="#222%E6%B7%BB%E5%8A%A0%E7%BB%84groupadd">2.2.2添加组：groupadd</a></li>
+<li><a href="#223%E4%BF%AE%E6%94%B9%E7%BB%84groupmod">2.2.3修改组：groupmod</a></li>
+<li><a href="#224%E5%88%A0%E9%99%A4%E7%BB%84groupdel">2.2.4删除组：groupdel</a></li>
+<li><a href="#225groups-%E6%98%BE%E7%A4%BA%E7%94%A8%E6%88%B7%E6%89%80%E5%B1%9E%E7%BB%84">2.2.5groups 显示用户所属组</a></li>
+<li><a href="#226%E6%94%B9%E5%8F%98%E7%9B%AE%E5%BD%95%E6%88%96%E8%80%85%E6%96%87%E4%BB%B6%E6%89%80%E5%B1%9E%E7%BB%84">2.2.6改变目录或者文件所属组</a></li>
+</ul>
+</li>
+<li><a href="#23%E8%A7%92%E8%89%B2-%E6%9D%83%E9%99%90%E5%92%8C%E5%91%BD%E4%BB%A4">2.3角色、权限和命令</a><ul>
+<li><a href="#231%E5%9F%BA%E6%9C%AC%E4%BA%86%E8%A7%A3">2.3.1基本了解</a></li>
+<li><a href="#232%E5%91%BD%E4%BB%A4">2.3.2命令</a></li>
+</ul>
+</li>
+<li><a href="#24sudo">2.4sudo</a></li>
 </ul>
 </li>
 <li><a href="#3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8">3.压缩命令使用</a></li>
@@ -330,6 +347,55 @@
 <p>​	最后设置添加用户名</p>
 <p>创建：</p>
 <p>useradd -u 1888 -g users -G sys,root -c “描述信息” uqy142a</p>
+<p>创建：</p>
+<p>​	useradd -u 1888 -g users -G sys,root -c “描述信息” uqy142a</p>
+<p>​	useradd  uqy142b</p>
+<p>​	useradd  uqy142c</p>
+<p>设置密码：</p>
+<pre><code>  passwd  [用户名]
+</code></pre>
+<p>切换用户 su</p>
+<p>​	 su -l  [用户名]</p>
+<h4><span id="214修改用户命令usermod">2.1.4修改用户命令：usermod</span></h4><p>-l 修改用户名 </p>
+<p>-g 修改组 usermod -g sys tom</p>
+<p>-G 添加多个组 sermod -G sys,root tom</p>
+<p>–L 锁定用户账号密码（Lock）</p>
+<p>–U 解锁用户账号（Unlock）</p>
+<h4><span id="215删除用户命令userdeluser-delete">2.1.5删除用户命令：userdel（user delete）</span></h4><p>-r	 删除账号时同时删除目录（remove）</p>
+<h3><span id="22组管理">2.2组管理</span></h3><h4><span id="221保存用户组的文件x2fetcx2fgroup">2.2.1保存用户组的文件：&#x2F;etc&#x2F;group</span></h4><p> 文件详解：</p>
+<p>​	组名：   用的所在的组</p>
+<p>​	组密码： 密码位，一般不使用</p>
+<p>​	GID  ： 主标示号</p>
+<p>​	组内用户列表：   属于该组的用户列表（从组）</p>
+<h4><span id="222添加组groupadd">2.2.2添加组：groupadd</span></h4><p>​     -g 指定gid</p>
+<h4><span id="223修改组groupmod">2.2.3修改组：groupmod</span></h4><p>​    -n 更改组名（new group）</p>
+<h4><span id="224删除组groupdel">2.2.4删除组：groupdel</span></h4><h4><span id="225groups-显示用户所属组">2.2.5groups 显示用户所属组</span></h4><p>​     groups  用户名</p>
+<h4><span id="226改变目录或者文件所属组">2.2.6改变目录或者文件所属组</span></h4><p>chgrp 改变目录或者文件所属组（只改组）</p>
+<p> 用法：</p>
+<p> chgrp groupb aaa  改变aaa原来所属组root 改为groupb</p>
+<h3><span id="23角色-权限和命令">2.3角色、权限和命令</span></h3><p><img src="D:\record\my-hexo\themes\particlex\source\images\linuxImg\control.png" alt="control"></p>
+<h4><span id="231基本了解">2.3.1基本了解</span></h4><p>第1位：文件类型：</p>
+<p>​				 “-”表示普通文件；</p>
+<p>​				“d”表示目录；</p>
+<p>​				“l”表示链接文件；</p>
+<p>​				“p”表示管理文件；</p>
+<p>​				“b”表示块设备文件；</p>
+<p>​				“c”表示字符设备文件；</p>
+<p>​				“s”表示套接字文件；</p>
+<p>第2-4位：所属用户权限，用u（user）表示</p>
+<p>第5-7位：所属组权限，用g（group）表示</p>
+<p>第8-10位：其他用户权限，用o（other）表示</p>
+<p>第2-10位：表示所有的权限，用a（all）表示</p>
+<p>三种基本权限:</p>
+<p>r 读权限（read）</p>
+<p>w 写权限（write）</p>
+<p>x 执行权限 （execute）</p>
+<h4><span id="232命令">2.3.2命令</span></h4><p>chmod修改文件权限命令（change mode）</p>
+<p>​    参数：-R 下面的文件和子目录做相同权限操作（Recursive递归的）</p>
+<p>​    例如：chmod u[go&#x2F;a]+&#x2F;-x[rw] a.txt</p>
+<p>用数字来表示权限（r&#x3D;4，w&#x3D;2，x&#x3D;1，-&#x3D;0）</p>
+<h3><span id="24sudo">2.4sudo</span></h3><p>一般用在非root用户下，临时提升非root用户的权限。</p>
+<p>必须要在&#x2F;etc&#x2F;sudoers中配置非root用户</p>
 <h2><span id="3压缩命令使用">3.压缩命令使用</span></h2><p><img src="/images/linuxImg/tar.png" alt="tar"></p>
 
     </div>
