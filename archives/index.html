@@ -52,11 +52,13 @@
             <div id="loading" v-show="loading">
                 <div id="loading-circle">
                     <h2>LOADING</h2>
-                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <p style="font-size: 25px;">请客观稍等片刻 正在努力加载哦...</p>
                     <img src="/images/loading.gif" />
                 </div>
             </div>
         </transition>
+        
+
         <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
     <nav id="desktop-menu">
         <a class="title" href="/">
@@ -158,6 +160,42 @@
     
     <div id="timeline-wrap" ref="timeline">
         
+        <div class="timeline" data-title="spring基础">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2023/12/7</div>
+                <a href="/2023/12/07/spring6/">
+                    <h3>Spring基础</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/Java/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            Java
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Spring/" style="color: #00a596">Spring</a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
         <div class="timeline" data-title="linux常用命令">
             <div class="timeline-tail"></div>
             <div class="timeline-content">
@@ -185,7 +223,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" style="color: #ffa2c4">Linux常用命令</a>
+                            <a href="/tags/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" style="color: #00bcd4">Linux常用命令</a>
                         </span>
                         
                     </span>
@@ -221,7 +259,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/Spring/" style="color: #00bcd4">Spring</a>
+                            <a href="/tags/Spring/" style="color: #ff7d73">Spring</a>
                         </span>
                         
                     </span>

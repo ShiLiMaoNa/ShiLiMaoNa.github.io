@@ -18,6 +18,9 @@ const app = Vue.createApp({
   mounted() {
     window.addEventListener("scroll", this.handleScroll, true);
     this.render();
+    //为目录绑定样式
+    let myUlList = document.querySelectorAll(".article .content ul");
+    myUlList[0].classList.add("myToc");
   },
   methods: {
     render() {

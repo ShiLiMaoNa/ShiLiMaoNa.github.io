@@ -50,11 +50,13 @@
             <div id="loading" v-show="loading">
                 <div id="loading-circle">
                     <h2>LOADING</h2>
-                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <p style="font-size: 25px;">请客观稍等片刻 正在努力加载哦...</p>
                     <img src="/images/loading.gif" />
                 </div>
             </div>
         </transition>
+        
+
         <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
     <nav id="desktop-menu">
         <a class="title" href="/">
@@ -169,11 +171,22 @@
         
         
         <span>
-            <a href="/categories/Linux/" style="background: #ffa2c4">
+            <a href="/categories/Linux/" style="background: #03a9f4">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
                 Linux
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/categories/Java/" style="background: #00bcd4">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Java
             </a>
         </span>
         
@@ -207,7 +220,7 @@
                     
                     <span class="tag">
                         
-                        <a href="/tags/Spring/" style="color: #ffa2c4">Spring</a>
+                        <a href="/tags/Spring/" style="color: #03a9f4">Spring</a>
                     </span>
                     
                 </span>

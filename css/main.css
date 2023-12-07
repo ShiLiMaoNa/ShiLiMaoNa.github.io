@@ -893,6 +893,31 @@ ol li {
     ol {
         padding-left: 40px;
     }
+    .myToc{
+        position: fixed;
+        right: 0px;
+        z-index: 100;
+        max-height: 600px; /* 限制高度为 500px，超出后将出现滚动条 */
+        overflow-y: scroll;
+        top: 200px;
+    }
+
+    .myToc::-webkit-scrollbar {
+        width: 8px; /* 定义滚动条宽度 */
+      }
+      
+    .myToc::-webkit-scrollbar-track {
+      background: #f1f1f1; /* 定义滚动条背景颜色 */
+    }
+    
+    .myToc::-webkit-scrollbar-thumb {
+      background: #888; /* 定义滚动条滑块颜色 */
+    }
+    
+    .myToc::-webkit-scrollbar-thumb:hover {
+      background: #555; /* 定义滚动条滑块悬停时的颜色 */
+    }
+
 }
 @media (min-width: 900px) and (max-width: 1200px) {
     #home-card {
