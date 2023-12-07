@@ -59,9 +59,6 @@
             <div id="loading" v-show="loading">
                 <div id="loading-circle">
                     <h2>LOADING</h2>
-                    <script src="/js/myPet.js??v=1701951127783"></script>
-                    <canvas id="myCanvas" style="position: fixed; width: 2000px; height: 1500px;z-index: 10; overflow: hidden; background-color: rgba(247, 243, 243, 0.4);"></canvas>
-
                     <p>慢品人间烟火色 闲观万事岁月长</p>
                     <img src="/images/loading.gif"/>
                 </div>
@@ -192,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Spring/" style="color: #00a596">Spring</a>
+                <a href="/tags/Spring/" style="color: #ff7d73">Spring</a>
             </span>
             
         </span>
@@ -200,7 +197,9 @@
     </div>
     
     <div class="content" v-pre>
-        <!-- toc -->
+        <div class="myToc">
+
+<!-- toc -->
 
 <ul>
 <li><a href="#spring%E9%9D%A2%E8%AF%95%E9%A2%9860%E9%97%AE">Spring面试题60问</a><ul>
@@ -215,6 +214,8 @@
 </li>
 </ul>
 <!-- tocstop -->
+
+</div>
 
 <h1><span id="spring面试题60问">Spring面试题60问</span></h1><h2><span id="1spring是如何简化开发的">1.Spring是如何简化开发的</span></h2><h3><span id="11基于pojo的轻量级和最小侵入编程">1.1，基于POJO的轻量级和最小侵入编程</span></h3><p>Spring框架不强迫应用程序实现Spring提供的规范接口或者继承Spring的规范类。可能你的类里面使用了Spring的注解，但是去掉注解，它仍然是一个普通的Java类。</p>
 <p><strong>延伸</strong>：</p>
