@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Shell/" style="color: #00bcd4">Shell</a>
+                <a href="/tags/Shell/" style="color: #ffa2c4">Shell</a>
             </span>
             
         </span>
@@ -206,6 +206,10 @@
 <li><a href="#1%E5%8F%98%E9%87%8F">1.变量</a><ul>
 <li><a href="#11%E7%89%B9%E6%AE%8A%E5%8F%98%E9%87%8F">1.1特殊变量</a></li>
 <li><a href="#12%E5%8F%98%E9%87%8F%E5%BC%95%E7%94%A8%E5%8F%8A%E5%88%A0%E9%99%A4">1.2变量引用及删除</a></li>
+</ul>
+</li>
+<li><a href="#2%E5%B8%B8%E8%A7%81%E7%8A%B6%E6%80%81%E5%92%8C%E8%BF%90%E7%AE%97%E7%AC%A6%E5%91%BD%E4%BB%A4">2.常见状态和运算符，命令</a><ul>
+<li><a href="#21%E6%95%B0%E6%8D%AE%E6%B5%81%E9%87%8D%E5%AE%9A%E5%90%91">2.1数据流重定向</a></li>
 </ul>
 </li>
 </ul>
@@ -238,6 +242,13 @@ subproj=$project/sub     #等同于 subproj=$&#123;project&#125;
 
 #变量删除
 unset  project  
+</code></pre>
+<h2><span id="2常见状态和运算符命令">2.常见状态和运算符，命令</span></h2><h3><span id="21数据流重定向">2.1数据流重定向</span></h3><pre><code class="line">标准输入： 代码0，使用  &lt;  或者  &lt;&lt;
+标准输出： 代码1，使用  &gt;  或者  &gt;&gt;
+错误输出： 代码2，使用  &gt;  或者  &gt;&gt;
+
+&gt; 表示 写入； &gt;&gt; 表示追加
+&lt; 表示 读入； &lt;&lt; 表示结束读入
 </code></pre>
 
     </div>
