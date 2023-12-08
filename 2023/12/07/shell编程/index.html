@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>Linux常用命令 | LiMao の学习日常</title>
+    <title>Shell编程 | LiMao の学习日常</title>
     <meta name="author" content="LiMao" />
     <meta name="description" content="welcome to my learning daily life" />
     <meta name="keywords" content="" />
@@ -161,7 +161,7 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>Linux常用命令</h1>
+        <h1>Shell编程</h1>
     </div>
     <div class="info">
         <span class="date">
@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Shell%E7%BC%96%E7%A8%8B/" style="color: #ff7d73">Shell编程</a>
+                <a href="/tags/Shell/" style="color: #00bcd4">Shell</a>
             </span>
             
         </span>
@@ -201,11 +201,45 @@
 
 <!-- toc -->
 
-
-
+<ul>
+<li><a href="#shell%E7%BC%96%E7%A8%8B">Shell编程</a><ul>
+<li><a href="#1%E5%8F%98%E9%87%8F">1.变量</a><ul>
+<li><a href="#11%E7%89%B9%E6%AE%8A%E5%8F%98%E9%87%8F">1.1特殊变量</a></li>
+<li><a href="#12%E5%8F%98%E9%87%8F%E5%BC%95%E7%94%A8%E5%8F%8A%E5%88%A0%E9%99%A4">1.2变量引用及删除</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <!-- tocstop -->
 
 </div>
+
+
+
+<h1><span id="shell编程">Shell编程</span></h1><h2><span id="1变量">1.变量</span></h2><h3><span id="11特殊变量">1.1特殊变量</span></h3><pre><code class="shell">    1.与命令行参数相关
+        $*  #将所有位置参量看成一个字符串（以空格间隔） 
+        $@  #将每个位置参量看成单独的字符串（以空格间隔）
+        $@  #将每个位置参量看成单独的字符串（以空格间隔） 
+        $0   #命令行上输入的Shell程序名。
+        $#  #表示命令行上参数的个数。
+    2.与进程状态相关
+        $?  #表示上一条命令执行后的返回值
+        $$  #当前进程的进程号
+        $!  #显示运行在后台的最后一个作业的 PID
+        $_  #在此之前执行的命令或脚本的最后一个参数
+</code></pre>
+<h3><span id="12变量引用及删除">1.2变量引用及删除</span></h3><pre><code class="shell">#变量赋值
+project=/home/work    #变量重新赋值
+
+#变量引用
+subproj=$&#123;project&#125;/sub   #subproj引用了project，他俩的值一样了。
+subproj=$project/sub     #等同于 subproj=$&#123;project&#125;
+
+#变量删除
+unset  project  
+</code></pre>
+
     </div>
     
     
