@@ -39,6 +39,9 @@
 <script src="/js/lib/preview.js"></script>
 
 
+<script src="https://cdn.staticfile.org/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script src="/js/lib/crypto.js"></script>
+
 
 
 
@@ -189,68 +192,27 @@
             
             <span class="tag">
                 
-                <a href="/tags/Shell/" style="color: #03a9f4">Shell</a>
+                <a href="/tags/Shell/" style="color: #ffa2c4">Shell</a>
             </span>
             
         </span>
         
     </div>
     
-    <div class="content" v-pre>
-        <div class="myToc">
-
-<!-- toc -->
-
-<ul>
-<li><a href="#shell%E7%BC%96%E7%A8%8B">Shell编程</a><ul>
-<li><a href="#1%E5%8F%98%E9%87%8F">1.变量</a><ul>
-<li><a href="#11%E7%89%B9%E6%AE%8A%E5%8F%98%E9%87%8F">1.1特殊变量</a></li>
-<li><a href="#12%E5%8F%98%E9%87%8F%E5%BC%95%E7%94%A8%E5%8F%8A%E5%88%A0%E9%99%A4">1.2变量引用及删除</a></li>
-</ul>
-</li>
-<li><a href="#2%E5%B8%B8%E8%A7%81%E7%8A%B6%E6%80%81%E5%92%8C%E8%BF%90%E7%AE%97%E7%AC%A6%E5%91%BD%E4%BB%A4">2.常见状态和运算符，命令</a><ul>
-<li><a href="#21%E6%95%B0%E6%8D%AE%E6%B5%81%E9%87%8D%E5%AE%9A%E5%90%91">2.1数据流重定向</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
-
-</div>
-
-
-
-<h1><span id="shell编程">Shell编程</span></h1><h2><span id="1变量">1.变量</span></h2><h3><span id="11特殊变量">1.1特殊变量</span></h3><pre><code class="shell">    1.与命令行参数相关
-        $*  #将所有位置参量看成一个字符串（以空格间隔） 
-        $@  #将每个位置参量看成单独的字符串（以空格间隔）
-        $0   #命令行上输入的Shell程序名。
-        $#  #表示命令行上参数的个数。
-    2.与进程状态相关
-        $?  #表示上一条命令执行后的返回值
-        $$  #当前进程的进程号
-        $!  #显示运行在后台的最后一个作业的 PID
-        $_  #在此之前执行的命令或脚本的最后一个参数
-</code></pre>
-<h3><span id="12变量引用及删除">1.2变量引用及删除</span></h3><pre><code class="shell">#变量赋值
-project=/home/work    #变量重新赋值
-
-#变量引用
-subproj=$&#123;project&#125;/sub   #subproj引用了project，他俩的值一样了。
-subproj=$project/sub     #等同于 subproj=$&#123;project&#125;
-
-#变量删除
-unset  project  
-</code></pre>
-<h2><span id="2常见状态和运算符命令">2.常见状态和运算符，命令</span></h2><h3><span id="21数据流重定向">2.1数据流重定向</span></h3><pre><code class="line">标准输入： 代码0，使用  &lt;  或者  &lt;&lt;
-标准输出： 代码1，使用  &gt;  或者  &gt;&gt;
-错误输出： 代码2，使用  &gt;  或者  &gt;&gt;
-
-&gt; 表示 写入； &gt;&gt; 表示追加
-&lt; 表示 读入； &lt;&lt; 表示结束读入
-</code></pre>
-
-    </div>
+    
+    <input
+        id="crypto"
+        :class="['input', cryptoStatus]"
+        :disabled="cryptoStatus === 'success'"
+        ref="crypto"
+        placeholder="文章被加密，请输入密码"
+        data-encrypted="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"
+        data-shasum="e117e044369979aa8483309eb69be43834254636415638db084c21e58ab941de"
+        v-model="crypto"
+    />
+    <transition name="fade">
+        <div class="content" ref="content" v-show="cryptoStatus === 'success'"></div>
+    </transition>
     
     
     
