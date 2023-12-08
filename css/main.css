@@ -177,6 +177,7 @@
     top: 0;
     width: 100vw;
     z-index: -1;
+    position: fixed;
 }
 #home-head #home-info .info {
     align-items: center;
@@ -250,11 +251,22 @@
     color: #999;
 }
 #home-posts .post {
-    background: #fff;
+    background: rgba(255, 255, 255,0.3);
     border-radius: 20px;
     box-shadow: 0 0 20px #d9d9d980;
-    transition: box-shadow 0.25s, transform 0.25s;
+    transition: all 0.3s;
+    /* transition: box-shadow 0.25s, transform 0.25s; */
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(8px);
 }
+#home-posts .post:hover {
+    background: rgba(255, 255, 255,0.67);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+
+
 #home-posts .post .category-and-date {
     color: #5c6b72;
     margin-top: 15px;
