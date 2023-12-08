@@ -38,7 +38,7 @@ function draw() {
 
     // 渲染完一颗星星，然后处理数据，计算下一帧的位置
     // 如果超出边界，删除这课星星
-    if (meteorArr[index].x > width + 100 || meteorArr[index].y > height + meteorArr[index].length * 2) {
+    if (meteorArr[index].x > width + 100 || meteorArr[index].y > height + meteorArr[index].length * 2.6) {
       meteorArr.splice(index, 1);
     } else {
       meteorArr[index].x += item.vx;
@@ -47,7 +47,7 @@ function draw() {
   });
 
   // 控制流星数量
-  if (meteorArr.length > 70) {} else {
+  if (meteorArr.length > 120) {} else {
     let random = Math.random();
     if (random > 0.5) {
       meteorArr.push(createStart());
