@@ -47,7 +47,7 @@ function draw() {
   });
 
   // 控制流星数量
-  if (meteorArr.length > 120) {} else {
+  if (meteorArr.length > 200) {} else {
     let random = Math.random();
     if (random > 0.5) {
       meteorArr.push(createStart());
