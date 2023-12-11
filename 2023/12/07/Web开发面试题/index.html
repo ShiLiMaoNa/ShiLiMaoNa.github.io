@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Spring/" style="color: #03a9f4">Spring</a>
+                <a href="/tags/Spring/" style="color: #00bcd4">Spring</a>
             </span>
             
         </span>
@@ -202,8 +202,8 @@
 <!-- toc -->
 
 <ul>
-<li><a href="#1spring-%E6%98%AF%E5%A6%82%E4%BD%95%E7%AE%80%E5%8C%96%E5%BC%80%E5%8F%91%E7%9A%84">1.Spring-是如何简化开发的</a></li>
-<li><a href="#2spring-%E5%8D%95%E4%BE%8Bbean%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%90%97">2.Spring-单例bean是线程安全的吗</a></li>
+<li><a href="#1-spring-%E6%98%AF%E5%A6%82%E4%BD%95%E7%AE%80%E5%8C%96%E5%BC%80%E5%8F%91%E7%9A%84">1. Spring-是如何简化开发的</a></li>
+<li><a href="#2-spring-%E5%8D%95%E4%BE%8Bbean%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%90%97">2. Spring-单例bean是线程安全的吗</a></li>
 </ul>
 <!-- tocstop -->
 
@@ -211,7 +211,7 @@
 
 
 
-<h2><span id="1spring-是如何简化开发的">1.Spring-是如何简化开发的</span></h2><p><strong><code>基于POJO的轻量级和最小侵入编程:</code></strong></p>
+<h2><span id="1-spring-是如何简化开发的">1. Spring-是如何简化开发的</span></h2><p><strong><code>基于POJO的轻量级和最小侵入编程:</code></strong></p>
 <blockquote>
 <p>Spring框架不强迫应用程序实现Spring提供的规范接口或者继承Spring的规范类。可能你的类里面使用了Spring的注解，但是去掉注解，它仍然是一个普通的Java类。</p>
 <p><strong>延伸</strong>：</p>
@@ -234,7 +234,7 @@
 <blockquote>
 <p>我们都使用过JDBC编程，在操作数据库时，其中有大量重复的样板式代码。（包括建立连接，释放等） spring为我们提供了JdbcTemplate来消除样板式代码。并且spring也集成了Hibernate、mybatis以及JPA来简化我们的开发。</p>
 </blockquote>
-<h2><span id="2spring-单例bean是线程安全的吗">2.Spring-单例bean是线程安全的吗</span></h2><blockquote>
+<h2><span id="2-spring-单例bean是线程安全的吗">2. Spring-单例bean是线程安全的吗</span></h2><blockquote>
 <p><code>不是线程安全的</code></p>
 <p><strong>Spring框架中有一个@Scope注解，它的默认值为singleton，单例的</strong></p>
 <p><strong>因为一般在spring的bean中注入的都是无状态的对象(不可修改的对象)，如果在bean中定义了可修改的对象，那么就需要考虑线程安全问题，可以使用多例或加锁来解决。</strong></p>

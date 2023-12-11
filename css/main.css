@@ -714,8 +714,8 @@ strong {
     line-height: 2.5;
 }
 blockquote {
-    background: #d9e8ff6b;
-    border-left: 3px solid #1e3e3f;
+    background: #fff9f9;
+    border-left: 3px solid #db220a;
     border-radius: 3px;
     margin: 15px 0;
     overflow: auto;
