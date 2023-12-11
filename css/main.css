@@ -888,6 +888,7 @@ ol li {
     #home-head #home-info .info {
         height: 500px;
         width: 500px;
+        opacity: 0.8;
     }
     #home-posts {
         margin-right: 50px;
