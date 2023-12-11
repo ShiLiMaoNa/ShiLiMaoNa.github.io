@@ -3,7 +3,7 @@ let width = window.innerWidth;
 var ctx;
 var meteorArr = [{
   x: width / 6,
-  y: -height / 10,
+  y: -200,
   length: 100 / 5,
   r: 8,
   vx: 15,
