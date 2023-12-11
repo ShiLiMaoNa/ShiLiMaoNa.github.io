@@ -91,7 +91,7 @@ td{
     width: 300px;
 }
 #home-card #card-style {
-    background: #fff;
+    background: rgba(255, 255, 255,0.66);
     border: none;
     border-radius: 10px;
     box-shadow: 0 0 20px #d9d9d980;
