@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/JavaEE/" style="color: #ff7d73">JavaEE</a>
+                <a href="/tags/JavaEE/" style="color: #ffa2c4">JavaEE</a>
             </span>
             
         </span>
@@ -439,6 +439,17 @@ void update(Integer from, Integer to. Double money)
 </ul>
 <p><em>:heart:流程图:</em></p>
 <p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/Snipaste_2023-12-12_10-33-57.png" alt="Snipaste_2023-12-12_10-33-57"></p>
+<p><em>:heart:具体流程:</em></p>
+<ol>
+<li>通过BeanDefinition获取Bean的定义信息</li>
+<li>调用构造函数进行实例化Bean</li>
+<li>bean的依赖注入（通过set）</li>
+<li>处理Aware接口(BeanNameAware、BeanFactoryAware、ApplicationContextAware)</li>
+<li>Bean的后置处理器BeanPostProcessor-前置</li>
+<li>初始化方法(InitializingBean、init-method)</li>
+<li>Bean的后置处理器BeanPostProcessor-后置</li>
+<li>销毁Bean</li>
+</ol>
 </blockquote>
 
     </div>
