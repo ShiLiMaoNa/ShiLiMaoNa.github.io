@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/JavaEE/" style="color: #00bcd4">JavaEE</a>
+                <a href="/tags/JavaEE/" style="color: #ff7d73">JavaEE</a>
             </span>
             
         </span>
@@ -420,7 +420,7 @@ void update(Integer from, Integer to. Double money)
 </code></pre>
 <h2><span id="5bean的生命周期">5.bean的生命周期</span></h2><p><strong><code>初始化流程：</code></strong></p>
 <blockquote>
-<p><em>:heart:BeanDefinition:</em></p>
+<p><em>BeanDefinition:</em></p>
 <ul>
 <li>Spring容器在实例化时，会xml中配置的<bean>的信息封装成一个BeanDefinition对象，Sping根据BeanDefinition来创建Bean对象，里面有很多属性用来描述Bean</bean></li>
 </ul>
@@ -437,9 +437,9 @@ void update(Integer from, Integer to. Double money)
 <li>scope：作用域</li>
 <li>lazyInit：延迟初始化</li>
 </ul>
-<p><em>:heart:流程图:</em></p>
+<p><em>流程图:</em></p>
 <p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/Snipaste_2023-12-12_10-33-57.png" alt="Snipaste_2023-12-12_10-33-57"></p>
-<p><em>:heart:具体流程:</em></p>
+<p><em>具体流程:</em></p>
 <ol>
 <li>通过BeanDefinition获取Bean的定义信息</li>
 <li>调用构造函数进行实例化Bean</li>
