@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>Web开发面试题 | LiMao の学习日常</title>
+    <title>Java开发面试题 | LiMao の学习日常</title>
     <meta name="author" content="LiMao" />
     <meta name="description" content="welcome to my learning daily life" />
     <meta name="keywords" content="" />
@@ -161,7 +161,7 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>Web开发面试题</h1>
+        <h1>Java开发面试题</h1>
     </div>
     <div class="info">
         <span class="date">
@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Spring/" style="color: #00a596">Spring</a>
+                <a href="/tags/JavaEE/" style="color: #ff7d73">JavaEE</a>
             </span>
             
         </span>
@@ -205,6 +205,9 @@
 <li><a href="#spring">Spring</a><ul>
 <li><a href="#1-%E6%98%AF%E5%A6%82%E4%BD%95%E7%AE%80%E5%8C%96%E5%BC%80%E5%8F%91%E7%9A%84">1. 是如何简化开发的</a></li>
 <li><a href="#2-%E5%8D%95%E4%BE%8Bbean%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%90%97">2. 单例bean是线程安全的吗</a></li>
+<li><a href="#3aop%E7%9B%B8%E5%85%B3%E9%9D%A2%E8%AF%95%E9%A2%98">3.AOP相关面试题</a></li>
+<li><a href="#4spring%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88%E7%9A%84%E5%9C%BA%E6%99%AF%E6%9C%89%E5%93%AA%E4%BA%9B">4.Spring事务失效的场景有哪些</a></li>
+<li><a href="#5bean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F">5.bean的生命周期</a></li>
 </ul>
 </li>
 </ul>
@@ -290,6 +293,153 @@ public class UserController&#123;
     &#125;
 &#125;
 </code></pre>
+<h2><span id="3aop相关面试题">3.AOP相关面试题</span></h2><p><strong><code>什么是Aop ：</code></strong></p>
+<blockquote>
+<p>面向切面编程，用于将那些与业务无关的代码，但是却对多个对象产生影响的公共行为和逻辑，抽取成公共模块进行复用，降低耦合度 （操作日志，spring底层实现）</p>
+</blockquote>
+<p><strong><code>事务是如何实现的：</code></strong></p>
+<blockquote>
+<p>Spring支持编程式事务管理和声明式事务管理两种方式。</p>
+<ul>
+<li>编程式事务控制: 需使用TransactionTemplate来进行实现，对业务代码有侵入性，项目中很少使用</li>
+<li>声明式事务管理:声明式事务管理建立在AOP之上的。其本质是通过AOP功能，对方法前后进行拦截，将事务处理的功能编织到拦截的方法中，也就是在目标方法开始之前加入一个事务，在执行完目标方法之后根据执行情况提交或者回滚事务</li>
+<li>综述：本质是通过Aop实现的，对方法执行的前后进行拦截，在方法执行之前开启事务，执行后再提交事务，如果出现异常，则用catch进行捕获，然后再进行事务的回滚</li>
+</ul>
+</blockquote>
+<pre><code class="java">@Around(&quot;pointcut()&quot;)
+pulibc Object around(ProceedingJoinPoint joinPoint)throws Throwable&#123;
+    try&#123;
+        //开启事务
+        //执行业务代码
+        Object proceed = joinPoint.proceed()
+        //提交事务
+    &#125;catch&#123;
+        e.printStackTrace();
+        //执行业务代码出错，回滚事务
+    &#125;
+&#125;
+</code></pre>
+<h2><span id="4spring事务失效的场景有哪些">4.Spring事务失效的场景有哪些</span></h2><blockquote>
+<ol>
+<li>抛出异常检查</li>
+<li>非public方法</li>
+</ol>
+</blockquote>
+<p><strong><code>情况一：异常捕获处理</code></strong></p>
+<pre><code class="java">/**
+* 原因：
+* 事务通知只有捉到了目标方法抛出的异常，才能进行后续事务的回滚
+* 如果目标自己处理掉异常，事务通知可能无法获悉
+*
+* 解决：
+* 在catch中手动抛出异常
+*/
+@Transactional
+public void update(Integer from, Integer to. Double money)&#123;
+    try&#123;
+        
+        //转账用户不能为空
+        Account fromAccount = accountDao.selectById(from);
+        //判断用户的余额是否足够转账
+        if(fromAccount.getMoney() - money &gt;= 0)&#123;
+            fromAccount.setMoney(fromAccount.getMoney() - money);
+            accountDao.uodateById(fromAccount);
+            
+            //异常
+            int a = 1/0;
+            
+            //被转帐的用户
+            Account toAccount = accountDao.selectById(to);
+            toAccount.setMoney(toAccount.getMoney() + money);
+            accountDao.updateById(toAccount);
+        &#125;
+    &#125;catch(Exception ex)&#123;
+        ex.printStackTrace();
+        //解决
+        //通过手动抛出异常，让事务通知进行捕获异常
+        throw new RuntimeException(&quot;转账失败&quot;);
+    &#125;
+&#125;
+</code></pre>
+<p><strong><code>情况二：抛出检查异常</code></strong></p>
+<pre><code class="java">/**
+* 原因：
+* Spring默认只会回滚非检查异常
+*
+* 解决：
+* 给@Transactional添加rollbackFor属性
+*/
+@Transactional(rollbackFor = Exception.class)
+public void update(Integer from, Integer to. Double money)
+                                throws FileNotFoundException&#123;
+    //转账的用户不能为空
+    Account fromAccount = accountDao.selectByld(from);
+    //判断用户的钱是否够转账
+    if(fromAccount.getMoney() - money &gt;= 0)&#123;
+        fromAccount.setMoney(fromAccount.getMoney() - money);
+        accountDao.uodateById(fromAccount);
+            
+        //读取文件
+         new FileInputStream(&quot;dddd&quot;);
+            
+          //被转帐的用户
+         Account toAccount = accountDao.selectById(to);
+        toAccount.setMoney(toAccount.getMoney() + money);
+        accountDao.updateById(toAccount);
+    &#125;
+&#125;
+</code></pre>
+<p><strong><code>情况三：非public方法导致事务失效</code></strong></p>
+<pre><code class="java">/**
+* 原因：
+* Spring为方法创建Aop代理，添加事务通知
+* 前提条件都是该方法是public的
+*
+* 解决：
+* 改为public
+*/
+@Transactional(rollbackFor = Exception.class)
+void update(Integer from, Integer to. Double money)
+                                throws FileNotFoundException&#123;
+    //转账的用户不能为空
+    Account fromAccount = accountDao.selectByld(from);
+    //判断用户的钱是否够转账
+    if(fromAccount.getMoney() - money &gt;= 0)&#123;
+        fromAccount.setMoney(fromAccount.getMoney() - money);
+        accountDao.uodateById(fromAccount);
+            
+        //读取文件
+         new FileInputStream(&quot;dddd&quot;);
+            
+          //被转帐的用户
+         Account toAccount = accountDao.selectById(to);
+        toAccount.setMoney(toAccount.getMoney() + money);
+        accountDao.updateById(toAccount);
+    &#125;
+&#125;
+</code></pre>
+<h2><span id="5bean的生命周期">5.bean的生命周期</span></h2><p><strong><code>初始化流程：</code></strong></p>
+<blockquote>
+<p><em>:heart:BeanDefinition:</em></p>
+<ul>
+<li>Spring容器在实例化时，会xml中配置的<bean>的信息封装成一个BeanDefinition对象，Sping根据BeanDefinition来创建Bean对象，里面有很多属性用来描述Bean</bean></li>
+</ul>
+<pre><code class="xml">&lt;bean id=&quot;userDao&quot; class=&quot;com.lucky.dao.impl.UserDaoImpl&quot; lazy-init=&quot;true&quot;&gt;
+&lt;bean id=&quot;userService&quot; class=&quot;com.lucky.service.UserServiceImpl&quot; scope=&quot;singleton&quot;&gt;
+&lt;property name=&quot;userDao&quot; ref=&quot;userDao&quot;&gt;&lt;/property&gt;    
+&lt;/bean&gt;
+</code></pre>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/Snipaste_2023-12-12_10-24-44.png" alt="Snipaste_2023-12-12_10-24-44"></p>
+<ul>
+<li>beanClassName：bean的类名</li>
+<li>initMethodName：初始化方法名称</li>
+<li>properyValues：bean的属性值</li>
+<li>scope：作用域</li>
+<li>lazyInit：延迟初始化</li>
+</ul>
+<p><em>:heart:流程图:</em></p>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/Snipaste_2023-12-12_10-33-57.png" alt="Snipaste_2023-12-12_10-33-57"></p>
+</blockquote>
 
     </div>
     
