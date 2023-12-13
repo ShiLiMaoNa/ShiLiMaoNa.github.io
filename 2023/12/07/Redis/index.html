@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>Tags: JavaEE | LiMao の学习日常</title>
+    <title>Redis | LiMao の学习日常</title>
     <meta name="author" content="LiMao" />
     <meta name="description" content="welcome to my learning daily life" />
     <meta name="keywords" content="" />
@@ -37,6 +37,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -155,116 +159,118 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
+            <div class="article">
+    <div>
+        <h1>Redis</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/12/7
+        </span>
         
-        
-        
-        <span>
-            <a href="/tags/Shell/" style="background: #00a596">
+        <span class="category">
+            <a href="/categories/NoSql/">
                 <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                Shell
+                NoSql
             </a>
         </span>
         
         
-        
-        <span>
-            <a href="/tags/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                Linux常用命令
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="color: #00bcd4">中间件</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/redis/" style="color: #00a596">redis</a>
+            </span>
+            
         </span>
-        
-        
-        
-        <span>
-            <a href="/tags/Spring/" style="background: #03a9f4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                Spring
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/JavaEE/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                JavaEE
-            </a>
-        </span>
-        
-        
-        
-        
-        
-        <span>
-            <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="background: #00bcd4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                中间件
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/redis/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                redis
-            </a>
-        </span>
-        
         
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/12/7</div>
-            <a href="/2023/12/07/Java%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                <h3>Java开发面试题</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        面试题
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/JavaEE/" style="color: #00a596">JavaEE</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
+    <div class="content" v-pre>
+        <div class="myToc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#1string">1.string</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
+
+<h2><span id="1string">1.string</span></h2><blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">命令</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">set [NX &#x2F; XX]</td>
+<td align="center">添加键值对 [ 不存在 &#x2F; 存在 ]</td>
+</tr>
+<tr>
+<td align="center">get</td>
+<td align="center">获取键值对</td>
+</tr>
+<tr>
+<td align="center">incr &#x2F; decr</td>
+<td align="center">将key中的存储的数字+1 &#x2F; -1</td>
+</tr>
+<tr>
+<td align="center">incrby&#x2F;decrby</td>
+<td align="center">将key存储的数字减少或增加指定的数（步长）</td>
+</tr>
+<tr>
+<td align="center">mset</td>
+<td align="center">同时设置一个或者多个key-value 键值对</td>
+</tr>
+<tr>
+<td align="center">mget</td>
+<td align="center">同时获取一个或者多个value</td>
+</tr>
+<tr>
+<td align="center">setnx</td>
+<td align="center">设置一个key-value 键值对，当key不存在才执行</td>
+</tr>
+<tr>
+<td align="center">getrange</td>
+<td align="center">获取值的范围，类似java的substring</td>
+</tr>
+<tr>
+<td align="center">setrange</td>
+<td align="center">覆盖指定位置字符串(结束位置长度就是value的长度)</td>
+</tr>
+<tr>
+<td align="center">getset</td>
+<td align="center">获取key中value的同时改变value的值</td>
+</tr>
+</tbody></table>
+</blockquote>
+
     </div>
+    
+    
+    
+    
+    
+    
     
 </div>
 
@@ -296,6 +302,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
    <canvas
        id="fireworks"
