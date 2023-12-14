@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="color: #00a596">中间件</a>
+                <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="color: #ffa2c4">中间件</a>
             </span>
             
         </span>
@@ -202,6 +202,7 @@
 <!-- toc -->
 
 <ul>
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">常用命令</a><ul>
 <li><a href="#1key%E9%94%AE">1.Key键</a></li>
 <li><a href="#2string%E5%AD%97%E7%AC%A6%E4%B8%B2">2.String字符串</a><ul>
 <li><a href="#21%E5%91%BD%E4%BB%A4">2.1命令</a></li>
@@ -234,13 +235,14 @@
 </ul>
 </li>
 </ul>
+</li>
+<li><a href="#%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA">集群搭建</a></li>
+</ul>
 <!-- tocstop -->
 
 </div>
 
-
-
-<h2><span id="1key键">1.Key键</span></h2><blockquote>
+<h1><span id="常用命令">常用命令</span></h1><h2><span id="1key键">1.Key键</span></h2><blockquote>
 <table>
 <thead>
 <tr>
@@ -604,6 +606,30 @@
 </ol>
 </blockquote>
 <p>点击<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/624542788">此处</a>查看详情</p>
+<h1><span id="集群搭建">集群搭建</span></h1><blockquote>
+<ul>
+<li>创建虚拟机，关闭防火墙与selinux</li>
+<li>首先在 192.168.159.34 机器上 &#x2F;usr&#x2F;java&#x2F;目录下创建 redis_cluster 目录</li>
+<li>在 redis_cluster 目录下，创建名为7001、7002，7003、7004、7005，7006的目录</li>
+<li>将 redis.conf 拷贝到这六个目录中,</li>
+<li>配置redis7001.conf</li>
+<li>bind 192.168.159.34   <strong>#69</strong></li>
+<li>port 7001   <strong>#92</strong></li>
+<li>daemonize yes   <strong>#136</strong></li>
+<li>pidfile “&#x2F;var&#x2F;run&#x2F;redis_7001.pid”   <strong>#158</strong> </li>
+<li>logfile “&#x2F;usr&#x2F;redis&#x2F;redis_cluster&#x2F;7001&#x2F;redis_7001.log” <strong>#171</strong></li>
+<li>dbfilename “dump_7001.rdb”    <strong>#253</strong></li>
+<li>dir “&#x2F;usr&#x2F;redis&#x2F;redis_cluster&#x2F;7001”   <strong>#263</strong></li>
+<li>cluster-enabled yes <strong>#832</strong> 启用集群配置</li>
+<li>cluster-config-file nodes-7001.conf   <strong>#840</strong> 设置集群配置文件</li>
+<li>cluster-node-timeout 15000   <strong>#846</strong>  请求超时时间 </li>
+<li>启动这6个redis</li>
+<li>创建redis的集群</li>
+<li>&#x2F;usr&#x2F;java&#x2F;redis&#x2F;bin&#x2F;redis-cli  –cluster create  <code>192.168.159.34:7001 </code>     <code>192.168.159.34:7002</code>    <code>192.168.159.34:7003</code>   <code>192.168.159.34:7004</code>      <code>192.168.159.34:7005</code> <code>192.168.159.34:7006</code> –cluster-replicas 1</li>
+<li>1其实代表的是一个比例，就是主节点数&#x2F;从节点数的比例。那么想一想，在创建集群的时候，哪些节点是主节点呢？哪些节点是从节点呢？答案是将按照命令中IP:PORT的顺序，先是3个主节点，然后是3个从节点。</li>
+<li>使用客户端链接集群 必须使用 -c 连接</li>
+</ul>
+</blockquote>
 
     </div>
     
@@ -665,4 +691,5 @@
     <script src="/js/background.min.js"></script>
 
 
-<script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>
+</body>
+</html>
