@@ -208,6 +208,15 @@
 <li><a href="#3aop%E7%9B%B8%E5%85%B3%E9%9D%A2%E8%AF%95%E9%A2%98">3.AOP相关面试题</a></li>
 <li><a href="#4spring%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88%E7%9A%84%E5%9C%BA%E6%99%AF%E6%9C%89%E5%93%AA%E4%BA%9B">4.Spring事务失效的场景有哪些</a></li>
 <li><a href="#5bean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F">5.bean的生命周期</a></li>
+<li><a href="#6spring-bean%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8">6.Spring-bean的循环引用</a></li>
+</ul>
+</li>
+<li><a href="#spring-mvc">Spring-Mvc</a><ul>
+<li><a href="#1%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B">1.执行流程</a></li>
+</ul>
+</li>
+<li><a href="#springboot">SpringBoot</a><ul>
+<li><a href="#1%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86">1.自动配置原理</a></li>
 </ul>
 </li>
 </ul>
@@ -450,6 +459,91 @@ void update(Integer from, Integer to. Double money)
 <li>Bean的后置处理器BeanPostProcessor-后置</li>
 <li>销毁Bean</li>
 </ol>
+</blockquote>
+<h2><span id="6spring-bean的循环引用">6.Spring-bean的循环引用</span></h2><blockquote>
+<p>set：</p>
+<p><code>什么是循环依赖：</code></p>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/Snipaste_2023-12-14_09-34-41.png" alt="Snipaste_2023-12-14_09-34-41"></p>
+<p><code>Sping通过三级缓存解决循环依赖，对应的三级缓存如下所示：</code></p>
+<pre><code class="java">//单实例对象注册器
+Public class DefaulitSingletonBeanRegistry extends SimpleAliasRegistry
+                                     implements SingletonBeanRegistry&#123;
+   private static final int SUPPRESSED_EXCEPTIONS_LIMIT = 100;
+   //一级缓存
+   private final Map&lt;Stirng,Object&gt; singletonObjects 
+       = new ConcurrentHashMap(256);
+   //二级缓存
+   private final Map&lt;String,ObjectFactory&lt;?&gt;&gt; singletonFactories
+       = new HashMap(16);
+   //三级缓存
+   private final Map&lt;String,Object&gt; earlySingletonObjects
+       = new ConcurrentHashMap(16);
+&#125;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th align="center">缓存名称</th>
+<th align="center">源码名称</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">一级缓存</td>
+<td align="center">singletonObjects</td>
+<td align="center">单例池，缓存已经经历了完整的声明周期，已经初始化完成的bean对象</td>
+</tr>
+<tr>
+<td align="center">二级缓存</td>
+<td align="center">earlySingletonObjects</td>
+<td align="center">缓存早期的bean对象(声明周期未走完，刚完成实例化步骤)</td>
+</tr>
+<tr>
+<td align="center">三级缓存</td>
+<td align="center">singletonFactories</td>
+<td align="center">缓存的是ObjectFactory，表示对象工厂，用来创建某个对象的</td>
+</tr>
+</tbody></table>
+<p><code>如果想要打破循环依赖，就需要一个中间人的参与，这个中间就是二级缓存。</code></p>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/Snipaste_2023-12-14_09-48-47.png" alt="Snipaste_2023-12-14_09-48-47"></p>
+<p><strong>注意：此时存入单例池中的并不是代理对象，需要通过三级缓存来实现</strong></p>
+<p><code>三级缓存解决循环依赖：</code></p>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/Snipaste_2023-12-14_09-53-46.png" alt="Snipaste_2023-12-14_09-53-46"></p>
+<hr>
+<p>构造方法实例化：</p>
+<pre><code class="java">/**
+* 添加@Lazy注解，实现延迟加载解决
+*/
+@Component
+public class A&#123;
+   private B b;
+   public A(@Lazy B b)&#123;
+       this.b = b;
+   &#125;
+&#125;
+class B&#123;
+   private A a;
+   public B(A a)&#123;
+       this.a = a;
+   &#125;
+&#125;
+</code></pre>
+</blockquote>
+<h1><span id="spring-mvc">Spring-Mvc</span></h1><h2><span id="1执行流程">1.执行流程</span></h2><blockquote>
+<p><strong>视图阶段(jsp)：</strong></p>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/Snipaste_2023-12-14_10-17-57.png" alt="Snipaste_2023-12-14_10-17-57"></p>
+<p><strong>前后端分离阶段：</strong></p>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/Snipaste_2023-12-14_10-20-14.png" alt="Snipaste_2023-12-14_10-20-14"></p>
+</blockquote>
+<h1><span id="springboot">SpringBoot</span></h1><h2><span id="1自动配置原理">1.自动配置原理</span></h2><blockquote>
+<p>1，在Spring Boot项目中的引导类上有一个注解@SpringBootApplication，这个解是对三个注解进行了封装，分别是</p>
+<ul>
+<li>@SpringBootConfiguration</li>
+<li>@EnableAutoConfiquration</li>
+<li>@ComponentScan</li>
+</ul>
+<p>2，其中@EnableAutoConfiguration是实现自动化配置的核心注解。该注解通过@lmport注解导入对应的配置选择器内部就是读取了该项目和该项目引用的Jar包的的classpath路径下META-NF&#x2F;spring.factories文件中的所配置的类的全类名。在这些配置类中所定义的Bean会根据条件注解所指定的条件来决定是否需要将其导入到Spring容器中。</p>
+<p>3,条件判断会有像@Conditional0nClass这样的注解，判断是否有对应的lass文件，如果有则加载该类，把这个配置类的所有的Bean放入spring容器中使用。</p>
 </blockquote>
 
     </div>
