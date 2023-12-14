@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/JavaEE/" style="color: #00a596">JavaEE</a>
+                <a href="/tags/JavaEE/" style="color: #ffa2c4">JavaEE</a>
             </span>
             
         </span>
@@ -473,11 +473,11 @@ Public class DefaulitSingletonBeanRegistry extends SimpleAliasRegistry
    private final Map&lt;Stirng,Object&gt; singletonObjects 
        = new ConcurrentHashMap(256);
    //二级缓存
-   private final Map&lt;String,ObjectFactory&lt;?&gt;&gt; singletonFactories
-       = new HashMap(16);
-   //三级缓存
    private final Map&lt;String,Object&gt; earlySingletonObjects
        = new ConcurrentHashMap(16);
+   //三级缓存
+   private final Map&lt;String,ObjectFactory&lt;?&gt;&gt; singletonFactories
+       = new HashMap(16);
 &#125;
 </code></pre>
 <table>
