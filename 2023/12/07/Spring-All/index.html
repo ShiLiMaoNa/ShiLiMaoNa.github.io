@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/JavaEE/" style="color: #00a596">JavaEE</a>
+                <a href="/tags/JavaEE/" style="color: #ff7d73">JavaEE</a>
             </span>
             
         </span>
@@ -217,6 +217,12 @@
 </li>
 <li><a href="#springboot">SpringBoot</a><ul>
 <li><a href="#1%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86">1.自动配置原理</a></li>
+</ul>
+</li>
+<li><a href="#spring%E6%A1%86%E6%9E%B6%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3">Spring框架常见注解</a><ul>
+<li><a href="#1spring%E6%B3%A8%E8%A7%A3">1.Spring注解</a></li>
+<li><a href="#2springmvc%E6%B3%A8%E8%A7%A3">2.SpringMVC注解</a></li>
+<li><a href="#3springboot%E6%B3%A8%E8%A7%A3">3.SpringBoot注解</a></li>
 </ul>
 </li>
 </ul>
@@ -545,6 +551,102 @@ class B&#123;
 <p>2，其中@EnableAutoConfiguration是实现自动化配置的核心注解。该注解通过@lmport注解导入对应的配置选择器内部就是读取了该项目和该项目引用的Jar包的的classpath路径下META-NF&#x2F;spring.factories文件中的所配置的类的全类名。在这些配置类中所定义的Bean会根据条件注解所指定的条件来决定是否需要将其导入到Spring容器中。</p>
 <p>3,条件判断会有像@Conditional0nClass这样的注解，判断是否有对应的lass文件，如果有则加载该类，把这个配置类的所有的Bean放入spring容器中使用。</p>
 </blockquote>
+<h1><span id="spring框架常见注解">Spring框架常见注解</span></h1><h2><span id="1spring注解">1.Spring注解</span></h2><table>
+<thead>
+<tr>
+<th align="center">注解</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">@Component、@Controlller、 @Service、@Repository</td>
+<td align="center">用于在类上实例化bean</td>
+</tr>
+<tr>
+<td align="center">@Autowired</td>
+<td align="center">使用在字段上用于根据类型依赖注入</td>
+</tr>
+<tr>
+<td align="center">@Qualifier</td>
+<td align="center">结合@Autowired一起使用根据name进行依赖注入</td>
+</tr>
+<tr>
+<td align="center">@Scope</td>
+<td align="center">标注bean的作用范围</td>
+</tr>
+<tr>
+<td align="center">@Configuration</td>
+<td align="center">指定当前类是一个Spring配置类，当创建容器时会从该类上加载注解</td>
+</tr>
+<tr>
+<td align="center">@Bean</td>
+<td align="center">使用在方法上，标注该方法的返回值存储到Spring容器中</td>
+</tr>
+<tr>
+<td align="center">@Import</td>
+<td align="center">使用@Import导入的类会被Spring加载到IOC容器中</td>
+</tr>
+<tr>
+<td align="center">@Aspect、@Before、@After、@Around、@Pointcut</td>
+<td align="center">用于切面编程(AOP)</td>
+</tr>
+</tbody></table>
+<h2><span id="2springmvc注解">2.SpringMVC注解</span></h2><table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@RequestMapping</td>
+<td>用于映射请求路径，可以定义在类上和方法上。用于类上，则表啊是类中的所有的方法都是以该地址作为父路径</td>
+</tr>
+<tr>
+<td>@RequestBody</td>
+<td>注解实现接收http请求的json数据，将json转换为java对象</td>
+</tr>
+<tr>
+<td>@RequestParam</td>
+<td>指定请求参数的名称</td>
+</tr>
+<tr>
+<td>@PathVirable</td>
+<td>从请求路径中获取请求参数(&#x2F;user&#x2F;{id})传递给方法的形式参数</td>
+</tr>
+<tr>
+<td>@ResponseBody</td>
+<td>注解实现将controller方法返回对象转换为json对象相应给客户端</td>
+</tr>
+<tr>
+<td>@RequstHeader</td>
+<td>获取指定请求头数据</td>
+</tr>
+<tr>
+<td>@RestController</td>
+<td>@Controller + @ResponseBody</td>
+</tr>
+</tbody></table>
+<h2><span id="3springboot注解">3.SpringBoot注解</span></h2><table>
+<thead>
+<tr>
+<th align="center">注解</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">@SpringBootConfiguration</td>
+<td align="center">组合了-@Configuration注解，实现配置文件的功能</td>
+</tr>
+<tr>
+<td align="center">@EnableAutoConfiguration</td>
+<td align="center">开启自动配置的功能，也可以关闭某个自动配置</td>
+</tr>
+<tr>
+<td align="center">@ComponentScan</td>
+<td align="center">Spring组件扫描</td>
+</tr>
+</tbody></table>
 
     </div>
     
