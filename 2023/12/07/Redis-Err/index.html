@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>Tags: Shell | LiMao の学习日常</title>
+    <title>redis-slots-err | LiMao の学习日常</title>
     <meta name="author" content="LiMao" />
     <meta name="description" content="welcome to my learning daily life" />
     <meta name="keywords" content="" />
@@ -37,6 +37,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -155,116 +159,67 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
+            <div class="article">
+    <div>
+        <h1>redis-slots-err</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/12/7
+        </span>
         
-        
-        
-        <span>
-            <a href="/tags/Shell/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
+        <span class="category">
+            <a href="/categories/Redis/">
                 <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                Shell
+                Redis
             </a>
         </span>
         
         
-        
-        
-        
-        <span>
-            <a href="/tags/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                Linux常用命令
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%B8%B8%E8%A7%81Bug/" style="color: #ff7d73">常见Bug</a>
+            </span>
+            
         </span>
-        
-        
-        
-        <span>
-            <a href="/tags/JavaEE/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                JavaEE
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                中间件
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/Mybatis/" style="background: #00bcd4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                Mybatis
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E5%B8%B8%E8%A7%81Bug/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                常见Bug
-            </a>
-        </span>
-        
         
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/12/7</div>
-            <a href="/2023/12/07/shell%E7%BC%96%E7%A8%8B/">
-                <h3>Shell编程</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/Linux/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        Linux
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/Shell/" style="color: #03a9f4">Shell</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
+    <div class="content" v-pre>
+        <blockquote>
+<p>其原因：<br>这个往往是由于主node移除了，但是并没有移除node上面的slot，从而导致了slot总数没有达到16384，其实也就是slots分布不正确。所以在删除节点的时候一定要<br>注意删除的是否是Master主节点。<br>解决办法：</p>
+</blockquote>
+<p><code>1、使用如下命令来修复集群</code></p>
+<pre><code class="shell"># redis-cli --cluster fix host:port
+redis-cli --cluster fix 127.0.0.1:6379 
+</code></pre>
+<p><code>2、修复完成后再用check命令检查下是否正确，其命令如下：</code></p>
+<pre><code class="shell"># redis-cli --cluster check host:port
+redis-cli --cluster check 127.0.0.1:6379
+</code></pre>
+<p><code>3、如果分布不均匀那可以使用下面的方式重新分配slot</code></p>
+<pre><code class="shell"># redis-cli --cluster reshar host:port
+redis-cli --cluster reshard 127.0.0.1:6379
+</code></pre>
+
     </div>
+    
+    
+    
+    
+    
+    
     
 </div>
 
@@ -296,6 +251,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
    <canvas
        id="fireworks"

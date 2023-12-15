@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="color: #ff7d73">中间件</a>
+                <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="color: #00a596">中间件</a>
             </span>
             
         </span>
@@ -606,23 +606,25 @@
 </ol>
 </blockquote>
 <p>点击<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/624542788">此处</a>查看详情</p>
-<h1><span id="集群搭建">集群搭建</span></h1><blockquote>
+<h1><span id="集群搭建">集群搭建</span></h1><p>1.集群搭建</p>
+<blockquote>
 <ul>
 <li>创建虚拟机，关闭防火墙与selinux</li>
 <li>首先在 192.168.159.34 机器上 &#x2F;usr&#x2F;java&#x2F;目录下创建 redis_cluster 目录</li>
 <li>在 redis_cluster 目录下，创建名为7001、7002，7003、7004、7005，7006的目录</li>
 <li>将 redis.conf 拷贝到这六个目录中,</li>
-<li>配置redis7001.conf</li>
-<li>bind 192.168.159.34   <strong>#69</strong></li>
-<li>port 7001   <strong>#92</strong></li>
-<li>daemonize yes   <strong>#136</strong></li>
-<li>pidfile “&#x2F;var&#x2F;run&#x2F;redis_7001.pid”   <strong>#158</strong> </li>
-<li>logfile “&#x2F;usr&#x2F;redis&#x2F;redis_cluster&#x2F;7001&#x2F;redis_7001.log” <strong>#171</strong></li>
-<li>dbfilename “dump_7001.rdb”    <strong>#253</strong></li>
-<li>dir “&#x2F;usr&#x2F;redis&#x2F;redis_cluster&#x2F;7001”   <strong>#263</strong></li>
-<li>cluster-enabled yes <strong>#832</strong> 启用集群配置</li>
-<li>cluster-config-file nodes-7001.conf   <strong>#840</strong> 设置集群配置文件</li>
-<li>cluster-node-timeout 15000   <strong>#846</strong>  请求超时时间 </li>
+<li>配置redis7001.conf<blockquote>
+<pre><code>
+</code></pre>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>bind 192.168.159.34    <strong>#69</strong><br>port 7001    <strong>#92</strong><br>daemonize yes    <strong>#136</strong><br>pidfile “&#x2F;var&#x2F;run&#x2F;redis_7001.pid”   <strong>#158</strong><br>logfile “&#x2F;usr&#x2F;redis&#x2F;redis_cluster&#x2F;7001&#x2F;redis_7001.log” <strong>#171</strong><br>dbfilename “dump_7001.rdb”    <strong>#253</strong><br>dir “&#x2F;usr&#x2F;redis&#x2F;redis_cluster&#x2F;7001”   <strong>#263</strong><br>cluster-enabled yes <strong>#832</strong> 启用集群配置<br>cluster-config-file nodes-7001.conf   <strong>#840</strong> 设置集群配置文件<br>cluster-node-timeout 15000   <strong>#846</strong>  请求超时时间 </p>
+<pre><code>
+</code></pre>
+</blockquote>
+<ul>
 <li>启动这6个redis</li>
 <li>创建redis的集群</li>
 <li>&#x2F;usr&#x2F;java&#x2F;redis&#x2F;bin&#x2F;redis-cli  –cluster create  <code>192.168.159.34:7001 </code>     <code>192.168.159.34:7002</code>    <code>192.168.159.34:7003</code>   <code>192.168.159.34:7004</code>      <code>192.168.159.34:7005</code> <code>192.168.159.34:7006</code> –cluster-replicas 1</li>
