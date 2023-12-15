@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="color: #00bcd4">中间件</a>
+                <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="color: #ff7d73">中间件</a>
             </span>
             
         </span>
@@ -243,6 +243,7 @@
 <li><a href="#22%E8%8A%82%E7%82%B9">2.2节点</a></li>
 <li><a href="#23%E6%A7%BDslot">2.3<strong>槽(slot)</strong></a></li>
 <li><a href="#24%E9%94%AE">2.4键</a></li>
+<li><a href="#25-redis-cli%E5%91%BD%E4%BB%A4">2.5 redis-cli命令</a></li>
 </ul>
 </li>
 </ul>
@@ -737,6 +738,34 @@ cluster-node-timeout 15000   **#846**  请求超时时间
 <tr>
 <td align="center">cluster getkeysinslot [slot] [count]</td>
 <td align="center">返回 count 个 slot 槽中的键</td>
+</tr>
+</tbody></table>
+<h3><span id="25-redis-cli命令">2.5 redis-cli命令</span></h3><table>
+<thead>
+<tr>
+<th align="center">命令</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">–cluster check [ ip : port ]</td>
+<td align="center">检查集群的状态</td>
+</tr>
+<tr>
+<td align="center">–cluster add-node [ ip : port ] [ ip : port ]</td>
+<td align="center">添加主节点(第一个ip和端口<code>表示需要添加进集群的节点</code>)(第二个<code>表示集群中已存在的节点的ip和端口</code>)</td>
+</tr>
+<tr>
+<td align="center">–cluster-master-id</td>
+<td align="center">为从节点对应主节点的id</td>
+</tr>
+<tr>
+<td align="center">–cluster reshard</td>
+<td align="center">重新分配slots</td>
+</tr>
+<tr>
+<td align="center">–cluster del-node</td>
+<td align="center">删除节点<code>(删除主节点需要先使用 reshard 把主节点的slots移到其他节点才可以)</code></td>
 </tr>
 </tbody></table>
 
