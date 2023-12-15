@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="color: #ff7d73">中间件</a>
+                <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="color: #03a9f4">中间件</a>
             </span>
             
         </span>
@@ -667,15 +667,15 @@ cluster-node-timeout 15000   **#846**  请求超时时间
 </tr>
 </thead>
 <tbody><tr>
-<td align="center">cluster meet <ip> <port></port></ip></td>
+<td align="center">cluster meet [ip] [port]</td>
 <td align="center">将 ip 和 port 所指定的节点添加到集群当中，让它成为集群的一份子</td>
 </tr>
 <tr>
-<td align="center">cluster forge <node_id></node_id></td>
+<td align="center">cluster forge [node_id]</td>
 <td align="center">从集群中移除 node_id 指定的节点</td>
 </tr>
 <tr>
-<td align="center">cluster replicate <node_id></node_id></td>
+<td align="center">cluster replicate [node_id]</td>
 <td align="center">将当前节点设置为 node_id 指定的节点的从节点</td>
 </tr>
 <tr>
@@ -691,11 +691,11 @@ cluster-node-timeout 15000   **#846**  请求超时时间
 </tr>
 </thead>
 <tbody><tr>
-<td align="center">cluster addslots <slot> [slot …]</slot></td>
+<td align="center">cluster addslots [slot] [slot …]</td>
 <td align="center">将一个或多个槽（ slot）指派（ assign）给当前节点</td>
 </tr>
 <tr>
-<td align="center">cluster delslots <slot> [slot …]</slot></td>
+<td align="center">cluster delslots [slot] [slot …]</td>
 <td align="center">移除一个或多个槽对当前节点的指派</td>
 </tr>
 <tr>
@@ -703,19 +703,19 @@ cluster-node-timeout 15000   **#846**  请求超时时间
 <td align="center">移除指派给当前节点的所有槽，让当前节点变成一个没有指派任何槽的节点</td>
 </tr>
 <tr>
-<td align="center">cluster setslot  <slot>  node <node_id></node_id></slot></td>
-<td align="center">将槽 slot 指派给 node_id 指定的节点，如果槽已经指派给<br><strong>另一个节点，那么先让另一个节点删除该槽&gt;，然后再进行指派</strong></td>
+<td align="center">cluster setslot  [slot]  node [node_id]</td>
+<td align="center">将槽 slot 指派给 node_id 指定的节点，如果槽已经指派给<br><strong>另一个节点，那么先让另一个节点删除该槽，然后再进行指派</strong></td>
 </tr>
 <tr>
-<td align="center">cluster setslot <slot> migrating <node_id></node_id></slot></td>
+<td align="center">cluster setslot [slot] migrating [node_id]</td>
 <td align="center">将本节点的槽 slot 迁移到 node_id 指定的节点中</td>
 </tr>
 <tr>
-<td align="center">cluster setslot <slot> importing <node_id></node_id></slot></td>
+<td align="center">cluster setslot [slot] importing [node_id]</td>
 <td align="center">从 node_id 指定的节点中导入槽 slot 到本节点</td>
 </tr>
 <tr>
-<td align="center">cluster setslot <slot> stable</slot></td>
+<td align="center">cluster setslot [slot] stable</td>
 <td align="center">取消对槽 slot 的导入（ import）或者迁移（ migrate）</td>
 </tr>
 </tbody></table>
@@ -727,15 +727,15 @@ cluster-node-timeout 15000   **#846**  请求超时时间
 </tr>
 </thead>
 <tbody><tr>
-<td align="center">cluster keyslot <key></key></td>
+<td align="center">cluster keyslot [key]</td>
 <td align="center">计算键 key 应该被放置在哪个槽上</td>
 </tr>
 <tr>
-<td align="center">cluster countkeysinslot <slot></slot></td>
+<td align="center">cluster countkeysinslot [slot]</td>
 <td align="center">返回槽 slot 目前包含的键值对数量</td>
 </tr>
 <tr>
-<td align="center">cluster getkeysinslot <slot> <count></count></slot></td>
+<td align="center">cluster getkeysinslot [slot] [count]</td>
 <td align="center">返回 count 个 slot 槽中的键</td>
 </tr>
 </tbody></table>
