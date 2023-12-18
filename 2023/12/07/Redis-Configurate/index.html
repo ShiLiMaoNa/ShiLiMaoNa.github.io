@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/" style="color: #03a9f4">常用配置类</a>
+                <a href="/tags/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/" style="color: #ffa2c4">常用配置类</a>
             </span>
             
         </span>
@@ -439,7 +439,30 @@ public class MyCustomCache implements Cache &#123;
             &lt;artifactId&gt;commons-pools&lt;/artifactId&gt;
         &lt;/dependency&gt;
 </code></pre>
-<h2><span id="2配置类">2.配置类</span></h2><p><code>第一种：</code></p>
+<h2><span id="2yml配置">2.yml配置</span></h2><pre><code class="yaml">spring:
+    redis:
+        #设置redis索引
+        database: 0 
+        #设置连接密码
+        password: xxxx
+        #设置连接ip
+        host: 192.168.119.107
+        #设置连接端口
+        port: 6379
+        #连接超时时间(毫秒)
+        connect-timeout: 1800000
+        lettuce:
+            pool:
+                #连接池最大连接数
+                max-active: 20
+                #最大阻塞等待时间
+                max-wait: -1
+                #连接池最大空闲连接
+                max-idle: 5
+                #连接池最小空闲连接
+                min-idle: 0
+</code></pre>
+<h2><span id="3配置类">3.配置类</span></h2><p><code>第一种：</code></p>
 <pre><code class="java">@Configuration
 public class RedisConfig&#123;
     @Bean
@@ -565,5 +588,4 @@ public class RedisConfig &#123;
     ></canvas>
     <script src="/js/background.min.js"></script>
 
-</body>
-</html>
+<script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>
