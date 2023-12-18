@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/" style="color: #ffa2c4">常用配置类</a>
+                <a href="/tags/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/" style="color: #00a596">常用配置类</a>
             </span>
             
         </span>
@@ -197,7 +197,35 @@
     </div>
     
     <div class="content" v-pre>
-        <h1><span id="jedis配置二级缓存">Jedis配置二级缓存</span></h1><h2><span id="1maven依赖">1.Maven依赖</span></h2><pre><code class="xml">&lt;!--        引入springboot redis 依赖--&gt;
+        <div class="myToc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#jedis%E9%85%8D%E7%BD%AE%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98">Jedis配置二级缓存</a><ul>
+<li><a href="#1maven%E4%BE%9D%E8%B5%96">1.Maven依赖</a></li>
+<li><a href="#2yml%E9%85%8D%E7%BD%AE">2.yml配置</a></li>
+<li><a href="#3redisproperty%E9%85%8D%E7%BD%AE%E7%B1%BB">3.RedisProperty配置类</a></li>
+<li><a href="#4redisclusterconfig">4.RedisClusterConfig</a></li>
+<li><a href="#5mycustomcache">5.MyCustomCache</a></li>
+</ul>
+</li>
+<li><a href="#redistemplate%E9%85%8D%E7%BD%AE%E5%BA%8F%E5%88%97%E5%8C%96">RedisTemplate配置序列化</a><ul>
+<li><a href="#1%E4%BE%9D%E8%B5%96">1.依赖</a></li>
+<li><a href="#2yml%E9%85%8D%E7%BD%AE-1">2.yml配置</a></li>
+<li><a href="#3%E9%85%8D%E7%BD%AE%E7%B1%BB">3.配置类</a></li>
+</ul>
+</li>
+<li><a href="#spring-cache%E7%BC%93%E5%AD%98">Spring-Cache缓存</a><ul>
+<li><a href="#1%E9%85%8D%E7%BD%AE%E7%B1%BB">1.配置类</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
+
+<h1><span id="jedis配置二级缓存">Jedis配置二级缓存</span></h1><h2><span id="1maven依赖">1.Maven依赖</span></h2><pre><code class="xml">&lt;!--        引入springboot redis 依赖--&gt;
         &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
             &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
@@ -528,6 +556,83 @@ public class RedisConfig &#123;
     &#125;
 &#125;
 </code></pre>
+<h1><span id="spring-cache缓存">Spring-Cache缓存</span></h1><h2><span id="1配置类">1.配置类</span></h2><pre><code class="java">/**
+ * 用于定义RedisTemplate配置
+ */
+@Configuration
+public class RedisConfig &#123;
+
+    @Resource
+    private RedisConnectionFactory factory;
+    /**
+     * RedisTemplate
+     * @return
+     */
+    @Bean
+    public RedisTemplate&lt;String, Object&gt; redisTemplate() &#123;
+        //创建Redis模板对象
+        RedisTemplate&lt;String, Object&gt; template = new RedisTemplate&lt;&gt;();
+        //创建字符串序列化工具
+        RedisSerializer&lt;String&gt; redisSerializer = new StringRedisSerializer();
+        //创建json对象数据序列化工具
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer 
+            = new Jackson2JsonRedisSerializer(Object.class);
+
+        //创建Json和java对象的转换工具
+        ObjectMapper om = new ObjectMapper();
+        // 指定要序列化的域，field,get和set,以及修饰符范围，ANY是都有包括private和public
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        // 指定序列化输入的类型，类必须是非final修饰的，final修饰的类，比如String,Integer等会跑出异常
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+
+        jackson2JsonRedisSerializer.setObjectMapper(om);
+        template.setConnectionFactory(factory);
+        //key序列化方式
+        template.setKeySerializer(redisSerializer);
+        //value序列化
+        template.setValueSerializer(jackson2JsonRedisSerializer);
+        //value hashmap序列化
+        template.setHashValueSerializer(jackson2JsonRedisSerializer);
+        return template;
+    &#125;
+
+    /**
+     * 缓存管理类
+     * @return
+     */
+    @Bean
+    public CacheManager cacheManager()&#123;
+
+        //定义字符串数据序列化工具
+        RedisSerializer&lt;String&gt; redisSerializer = new StringRedisSerializer();
+        //定义json对象的序列化工具
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer 
+            = new Jackson2JsonRedisSerializer(Object.class);
+        //解决查询缓存转换异常的问题
+        ObjectMapper om = new ObjectMapper();
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        jackson2JsonRedisSerializer.setObjectMapper(om);
+        //配置序列化（解决乱码的问题）,过期时间600秒
+        RedisCacheConfiguration config = RedisCacheConfiguration
+            .defaultCacheConfig()
+            .entryTtl(Duration.ofSeconds(600))
+            .serializeKeysWith(RedisSerializationContext
+            .SerializationPair
+            .fromSerializer(redisSerializer))
+            .serializeValuesWith(RedisSerializationContext
+            .SerializationPair
+            .fromSerializer(jackson2JsonRedisSerializer))
+            .disableCachingNullValues();
+
+        //创建缓存管理对象
+        RedisCacheManager cacheManager = RedisCacheManager.builder(factory)
+                .cacheDefaults(config)
+                .build();
+        return cacheManager;
+    &#125;
+&#125;
+</code></pre>
 
     </div>
     
@@ -588,4 +693,5 @@ public class RedisConfig &#123;
     ></canvas>
     <script src="/js/background.min.js"></script>
 
-<script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>
+</body>
+</html>

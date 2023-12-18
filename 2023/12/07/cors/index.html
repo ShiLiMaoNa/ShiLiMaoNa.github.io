@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>设计模式 | LiMao の学习日常</title>
+    <title>cors跨域 | LiMao の学习日常</title>
     <meta name="author" content="LiMao" />
     <meta name="description" content="welcome to my learning daily life" />
     <meta name="keywords" content="" />
@@ -38,9 +38,6 @@
 
 <script src="/js/lib/preview.js"></script>
 
-
-<script src="https://cdn.staticfile.org/crypto-js/4.2.0/crypto-js.min.js"></script>
-<script src="/js/lib/crypto.js"></script>
 
 
 
@@ -164,42 +161,64 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>设计模式</h1>
+        <h1>cors跨域</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2023/12/14
+            2023/12/7
         </span>
         
         <span class="category">
-            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <a href="/categories/cors/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                设计模式
+                cors
             </a>
         </span>
         
         
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/" style="color: #03a9f4">常用配置类</a>
+            </span>
+            
+        </span>
+        
     </div>
     
-    
-    <input
-        id="crypto"
-        :class="['input', cryptoStatus]"
-        :disabled="cryptoStatus === 'success'"
-        ref="crypto"
-        placeholder="文章被加密，请输入密码"
-        data-encrypted="U2FsdGVkX1+4U2mVV+57IzQMrQR6vv1pGvsSvpwXvok="
-        data-shasum="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-        v-model="crypto"
-    />
-    <transition name="fade">
-        <div class="content" ref="content" v-show="cryptoStatus === 'success'"></div>
-    </transition>
+    <div class="content" v-pre>
+        <pre><code class="java">@Configuration
+public class MyCorsConfiguration &#123;
+    @Bean
+    public FilterRegistrationBean corsFilter() &#123;
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        //config.addAllowedOrigin(&quot;http://127.0.0.1:5500&quot;);
+        //config.addAllowedOrigin(&quot;http://localhost:5500&quot;);
+        config.addAllowedOriginPattern(&quot;*&quot;);
+        config.addAllowedHeader(&quot;*&quot;);
+        config.addAllowedMethod(&quot;*&quot;);
+        //对于所有请求，都是用当前的跨域配置
+        source.registerCorsConfiguration(&quot;/**&quot;, config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(0);
+        return bean;
+    &#125;
+&#125;
+</code></pre>
+
+    </div>
     
     
     
