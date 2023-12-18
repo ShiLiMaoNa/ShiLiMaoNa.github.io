@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>Redis | LiMao の学习日常</title>
+    <title>redis-configuration | LiMao の学习日常</title>
     <meta name="author" content="LiMao" />
     <meta name="description" content="welcome to my learning daily life" />
     <meta name="keywords" content="" />
@@ -161,7 +161,7 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>Redis</h1>
+        <h1>redis-configuration</h1>
     </div>
     <div class="info">
         <span class="date">
@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/" style="color: #ff7d73">常用配置类</a>
+                <a href="/tags/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/" style="color: #03a9f4">常用配置类</a>
             </span>
             
         </span>
@@ -197,7 +197,17 @@
     </div>
     
     <div class="content" v-pre>
-        <h1><span id="jedis配置二级缓存">Jedis配置二级缓存</span></h1><h2><span id="1yml配置">1.yml配置</span></h2><pre><code class="yaml">#project.yml
+        <h1><span id="jedis配置二级缓存">Jedis配置二级缓存</span></h1><h2><span id="1maven依赖">1.Maven依赖</span></h2><pre><code class="xml">&lt;!--        引入springboot redis 依赖--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+            &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<h2><span id="2yml配置">2.yml配置</span></h2><pre><code class="yaml">#project.yml
 redis:
     maxIdle: 2000
     maxTotal: 20000
@@ -212,7 +222,7 @@ redis:
                192.168.48.181:7008
     testOnBorrow: false
 </code></pre>
-<h2><span id="2redisproperty配置类">2.RedisProperty配置类</span></h2><pre><code class="java">@Data
+<h2><span id="3redisproperty配置类">3.RedisProperty配置类</span></h2><pre><code class="java">@Data
 @Component
 @PropertySource(&quot;classpath:project.yml&quot;)
 @ConfigurationProperties(prefix = &quot;redis&quot;)
@@ -229,7 +239,7 @@ public class RedisProperty &#123;
     private String nodes;
 &#125;
 </code></pre>
-<h2><span id="3redisclusterconfig">3.RedisClusterConfig</span></h2><pre><code class="java">/**
+<h2><span id="4redisclusterconfig">4.RedisClusterConfig</span></h2><pre><code class="java">/**
  * Redis集群配置类
  * @author: hy
  * @create: 2023-12-16 15:45:11
@@ -301,7 +311,7 @@ public class RedisClusterConfig &#123;
     &#125;
 &#125;
 </code></pre>
-<h2><span id="4mycustomcache">4.MyCustomCache</span></h2><pre><code class="java">/**
+<h2><span id="5mycustomcache">5.MyCustomCache</span></h2><pre><code class="java">/**
  * 自定义缓存工具类实现Mybatis二级缓存，缓存数据用redis管理
  * @author: hy
  * @create: 2023-12-16 16:00:11
@@ -411,6 +421,43 @@ public class MyCustomCache implements Cache &#123;
     @Override
     public ReadWriteLock getReadWriteLock() &#123;
         return this.readWriteLock;
+    &#125;
+&#125;
+</code></pre>
+<h1><span id="redistemplate配置序列化">RedisTemplate配置序列化</span></h1><h2><span id="1依赖">1.依赖</span></h2><pre><code class="xml">        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;!-- 引入了SpringMvc的starter这个依赖会自动引入 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
+            &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;!-- 管理java对象的创建、缓存、重用 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+            &lt;artifactId&gt;commons-pools&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<h2><span id="2配置类">2.配置类</span></h2><pre><code class="java">@Configuration
+public class RedisConfig&#123;
+    @Bean
+    public RedisTemplate&lt;String,Object&gt; redisTemplate(RedisConnectionFactory connectionFactory)&#123;
+        //创建RedisTemplate对象
+        RedisTemplate&lt;String,Object&gt; template = new RedisTemplate&lt;&gt;();
+        //设置连接工厂
+        template.setConnectionFactory(connectionFactory);
+        //将建json序列化工具
+        GenericJackson2JsonRedisSerializer jsonRedisSerializer =
+            new GenericJackson2JsonRedisSerializer();
+        //设置Key的序列化
+        template.setKeySerializer(RedisSerializer.string());
+        template.setHashKeySerializer(RedisSerializer.string());
+        //设置Value的序列化
+        template.setValueSerializer(jsonRedisSerializer);
+        template.setHashValueSerializer(jsonRedisSerializer);
+        //返回
+        return template;
     &#125;
 &#125;
 </code></pre>
