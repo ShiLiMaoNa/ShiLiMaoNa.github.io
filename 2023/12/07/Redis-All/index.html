@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Redis/" style="color: #ff7d73">Redis</a>
+                <a href="/tags/Redis/" style="color: #ffa2c4">Redis</a>
             </span>
             
         </span>
@@ -237,31 +237,25 @@
 <p><code>解决：</code></p>
 <blockquote>
 <p><strong>1. 热key不过期</strong></p>
-<ul>
-<li>预先设置热门数据：在Redis高峰访问时期，提前设置热门数据到缓存中，对这些<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E7%83%ADkey&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">热key</a>不设置失效时间，不过这样设置需要区分场景。</li>
-<li>实时调整：实时监控哪些数据热门，实时调整key过期时间。</li>
-</ul>
+<p>​	预先设置热门数据：在Redis高峰访问时期，提前设置热门数据到缓存中，对这些<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E7%83%ADkey&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">热key</a>不设置失效时间，不过这样设置需要区分场景。</p>
+<p>​	实时调整：实时监控哪些数据热门，实时调整key过期时间。</p>
 <p><strong>2. 分布式锁</strong></p>
 <p>为了避免出现缓存击穿的情况，我们可以在第一个请求去查询数据库的时候对他加一个<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">分布式锁</a>，其余的查询请求都会被阻塞住，直到锁被释放，后面的线程进来发现已经有缓存了，就直接走缓存，从而保护数据库。但是也是由于它会阻塞其他的线程，此时系统吞吐量会下降。</p>
 </blockquote>
 <h2><span id="4持久化">4.持久化</span></h2><p><strong><code>RDB持久化流程：</code></strong></p>
 <blockquote>
-<ul>
-<li>Redis父进程首先判断当前是否在执行bgsave，或者bgsave&#x2F;bgrewriteaof的子进程是否在执行，如果在执行则bgsave命令直接返回</li>
-<li>父进程执行fork操作创建子进程，这个复制过程中父进程是阻塞的，Redis不能执行来自客户端的任何命令</li>
-<li>父进程fork后，bgsave命令返回”Background saving started”信息并不再阻塞父进程，并可以响应其他命令</li>
-<li>子进程创建RDB文件，根据父进程内存快照生成临时快照文件，完成后对原有文件进行原子替换</li>
-<li>发送信号给父进程表示完成，父进程更新统计信息</li>
-</ul>
+<p>​	1、Redis父进程首先判断当前是否在执行bgsave，或者bgsave&#x2F;bgrewriteaof的子进程是否在执行，如果在执行则bgsave命令直接返回</p>
+<p>​	2、父进程执行fork操作创建子进程，这个复制过程中父进程是阻塞的，Redis不能执行来自客户端的任何命令</p>
+<p>​	3、父进程fork后，bgsave命令返回”Background saving started”信息并不再阻塞父进程，并可以响应其他命令</p>
+<p>​	4、子进程创建RDB文件，根据父进程内存快照生成临时快照文件，完成后对原有文件进行原子替换</p>
+<p>发送信号给父进程表示完成，父进程更新统计信息</p>
 <p><code>优点：整个过程中，只有fork子进程时会阻塞父进程，而在子进程创建RDB文件时，父进程可以继续处理客户端的请求</code></p>
 <p><code>缺点：RDB的缺点是最后一次持久化后的数据可能丢失。</code></p>
 </blockquote>
 <p><strong><code>AOF持久化流程：</code></strong></p>
 <blockquote>
-<ul>
-<li>客户端的请求写命令会被append追加到AOF缓冲区内</li>
-<li>AOF缓冲区根据AOF持久化策略[always,everysec,no]将操作sync同步到磁盘的AOF文件中</li>
-</ul>
+<p>​	客户端的请求写命令会被append追加到AOF缓冲区内</p>
+<p>​	AOF缓冲区根据AOF持久化策略[always,everysec,no]将操作sync同步到磁盘的AOF文件中</p>
 <ol>
 <li><blockquote>
 <p>appendfsync always：始终同步，每次Redis的写入都会立刻记入日志；性能较差但数据完整性比较好</p>
@@ -276,38 +270,26 @@
 </blockquote>
 </li>
 </ol>
-<ul>
-<li>AOF文件大小超过重写策略或手动重写时，会对AOF文件rewrite重写，压缩AOF文件容量</li>
-<li>Redis服务重启  时，会重新load加载AOF文件中的写操作达到数据恢复的目的</li>
-</ul>
+<p>  AOF文件大小超过重写策略或手动重写时，会对AOF文件rewrite重写，压缩AOF文件容量</p>
+<p>  Redis服务重启  时，会重新load加载AOF文件中的写操作达到数据恢复的目的</p>
 </blockquote>
 <p><strong><code>AOF重写机制原理：</code></strong></p>
 <blockquote>
-<ul>
-<li>为了解决 AOF 文件过大的问题，Redis 引入了 AOF 重写机制，它可以压缩和优化 AOF 文件的内容，减少冗余和无效的命令，提高数据的存储效率和恢复速度 。</li>
-<li>AOF 重写机制的原理是根据 Redis 进程内的数据生成一个新的 AOF 文件，只包含当前有效和存在的数据的写入命令，而不是历史上所有的写入命令 。</li>
-<li>AOF 重写机制是通过 fork 出一个子进程来完成的，子进程会扫描 Redis 的数据库，并将每个键值对转换为相应的写入命令，然后写入到一个临时文件中 。</li>
-<li>在子进程进行 AOF 重写的过程中，主进程还会继续接收和处理客户端的请求，如果有新的写操作发生，主进程会将这些写操作追加到一个缓冲区中，并通过管道通知子进程 。</li>
-<li>子进程在完成 AOF 重写后，会将缓冲区中的写操作也追加到临时文件中，然后向主进程发送信号，通知主进程可以切换到新的 AOF 文件了 。</li>
-<li>主进程在收到子进程的信号后，会将缓冲区中的写操作再次追加到临时文件中（以防止在此期间有新的写操作发生），然后用临时文件替换旧的 AOF 文件，并关闭旧的 AOF 文件</li>
-</ul>
+<p>为了解决 AOF 文件过大的问题，Redis 引入了 AOF 重写机制，它可以压缩和优化 AOF 文件的内容，减少冗余和无效的命令，提高数据的存储效率和恢复速度 。</p>
+<p>AOF 重写机制的原理是根据 Redis 进程内的数据生成一个新的 AOF 文件，只包含当前有效和存在的数据的写入命令，而不是历史上所有的写入命令 。</p>
+<p>AOF 重写机制是通过 fork 出一个子进程来完成的，子进程会扫描 Redis 的数据库，并将每个键值对转换为相应的写入命令，然后写入到一个临时文件中 。</p>
+<p>在子进程进行 AOF 重写的过程中，主进程还会继续接收和处理客户端的请求，如果有新的写操作发生，主进程会将这些写操作追加到一个缓冲区中，并通过管道通知子进程 。</p>
+<p>子进程在完成 AOF 重写后，会将缓冲区中的写操作也追加到临时文件中，然后向主进程发送信号，通知主进程可以切换到新的 AOF 文件了 。</p>
+<p>主进程在收到子进程的信号后，会将缓冲区中的写操作再次追加到临时文件中（以防止在此期间有新的写操作发生），然后用临时文件替换旧的 AOF 文件，并关闭旧的 AOF 文件 </p>
 </blockquote>
 <p><strong><code>AOF重写机制触发方式：</code></strong></p>
 <blockquote>
-<ul>
-<li><p>AOF 重写机制可以由<strong>用户手动触发，也可以由系统自动触发 。</strong></p>
-</li>
-<li><p>用户手动触发 AOF 重写机制可以通过执行 <strong>BGREWRITEAOF</strong> 命令来实现 。</p>
-</li>
-<li><p>系统自动触发 AOF 重写机制可以通过配置文件中的 auto-aof-rewrite-percentage 和 auto-aof-rewrite-min-size 参数来控制 。</p>
-</li>
-<li><p><strong>auto-aof-rewrite-percentage</strong> 参数表示当当前 AOF 文件大小超过上次重写后 AOF 文件大小的百分比时，触发 AOF 重写机制<strong>，默认值为 100 。</strong></p>
-</li>
-<li><p><strong>auto-aof-rewrite-min-size</strong> 参数表示当当前 AOF 文件大小超过指定值时，才可能触发 AOF 重写机制，<strong>默认值为 64 MB 。</strong></p>
-</li>
-<li><p>系统自动触发 AOF 重写机制还需要满足以下条件 ：</p>
-</li>
-</ul>
+<p>AOF 重写机制可以由<strong>用户手动触发，也可以由系统自动触发 。</strong></p>
+<p>用户手动触发 AOF 重写机制可以通过执行 <strong>BGREWRITEAOF</strong> 命令来实现 。</p>
+<p>系统自动触发 AOF 重写机制可以通过配置文件中的 auto-aof-rewrite-percentage 和 auto-aof-rewrite-min-size 参数来控制 。</p>
+<p><strong>auto-aof-rewrite-percentage</strong> 参数表示当当前 AOF 文件大小超过上次重写后 AOF 文件大小的百分比时，触发 AOF 重写机制<strong>，默认值为 100 。</strong></p>
+<p><strong>auto-aof-rewrite-min-size</strong> 参数表示当当前 AOF 文件大小超过指定值时，才可能触发 AOF 重写机制，<strong>默认值为 64 MB 。</strong></p>
+<p>系统自动触发 AOF 重写机制还需要满足以下条件 ：</p>
 <ol>
 <li>当前没有正在执行 BGSAVE 或 BGREWRITEAOF 的子进程</li>
 <li>当前没有正在执行 SAVE 的主进程</li>
@@ -316,18 +298,11 @@
 </blockquote>
 <p><strong><code>重写流程：</code></strong></p>
 <blockquote>
-<ul>
-<li><p>bgrewriteaof触发重写，判断是否当前有bgsave或bgrewriteaof在运行，如果有，则等待该命令结束后再继续执行。</p>
-</li>
-<li><p>主进程fork出子进程执行重写操作，保证主进程不会阻塞。</p>
-</li>
-<li><p>子进程遍历redis内存中数据到临时文件，客户端的写请求同时写入aof_buf缓冲区和aof_rewrite_buf重写缓冲区保证原AOF文件完整以及新AOF文件生成期间的新的数据修改动作不会丢失。</p>
-</li>
-<li><p>子进程写完新的AOF文件后，向主进程发信号，父进程更新统计信息。2).主进程把aof_rewrite_buf中的数据写入到新的AOF文件。</p>
-</li>
-<li><p>使用新的AOF文件覆盖旧的AOF文件，完成AOF重写。</p>
-</li>
-</ul>
+<p>bgrewriteaof触发重写，判断是否当前有bgsave或bgrewriteaof在运行，如果有，则等待该命令结束后再继续执行。</p>
+<p>主进程fork出子进程执行重写操作，保证主进程不会阻塞。</p>
+<p>子进程遍历redis内存中数据到临时文件，客户端的写请求同时写入aof_buf缓冲区和aof_rewrite_buf重写缓冲区保证原AOF文件完整以及新AOF文件生成期间的新的数据修改动作不会丢失。</p>
+<p>子进程写完新的AOF文件后，向主进程发信号，父进程更新统计信息。2).主进程把aof_rewrite_buf中的数据写入到新的AOF文件。</p>
+<p>使用新的AOF文件覆盖旧的AOF文件，完成AOF重写。</p>
 <p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/fork.png" alt="fork"></p>
 </blockquote>
 
