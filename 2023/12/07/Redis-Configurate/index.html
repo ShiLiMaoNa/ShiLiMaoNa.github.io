@@ -172,11 +172,11 @@
         </span>
         
         <span class="category">
-            <a href="/categories/Redis/">
+            <a href="/categories/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                Redis
+                常用配置类
             </a>
         </span>
         
@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/" style="color: #00a596">常用配置类</a>
+                <a href="/tags/Redis/" style="color: #ffa2c4">Redis</a>
             </span>
             
         </span>
@@ -580,9 +580,9 @@ public class RedisConfig &#123;
 
         //创建Json和java对象的转换工具
         ObjectMapper om = new ObjectMapper();
-        // 指定要序列化的域，field,get和set,以及修饰符范围，ANY是都有包括private和public
+        // 指定要序列化的域，field,get和set,以及修饰符范围，ANY是都有包括private和				public
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        // 指定序列化输入的类型，类必须是非final修饰的，final修饰的类，比如String,Integer等会跑出异常
+        // 指定序列化输入的类型，类必须是非final修饰的，final修饰的类，比如					String,Integer等会跑出异常
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
 
         jackson2JsonRedisSerializer.setObjectMapper(om);

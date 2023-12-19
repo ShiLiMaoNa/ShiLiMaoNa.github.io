@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>Mybatis面试题 | LiMao の学习日常</title>
+    <title>redis-configuration | LiMao の学习日常</title>
     <meta name="author" content="LiMao" />
     <meta name="description" content="welcome to my learning daily life" />
     <meta name="keywords" content="" />
@@ -161,14 +161,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>Mybatis面试题</h1>
+        <h1>redis-configuration</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2023/12/14
+            2023/12/7
         </span>
         
         <span class="category">
@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Mybatis/" style="color: #00bcd4">Mybatis</a>
+                <a href="/tags/Redis/" style="color: #ffa2c4">Redis</a>
             </span>
             
         </span>
@@ -197,105 +197,54 @@
     </div>
     
     <div class="content" v-pre>
-        <div class="myToc">
-
-<!-- toc -->
-
-<ul>
-<li><a href="#1mybatis%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B">1.Mybatis执行流程</a></li>
-<li><a href="#2%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%8E%9F%E7%90%86">2.延迟加载使用及原理</a></li>
-<li><a href="#3mybatis%E4%B8%80%E7%BA%A7-%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98">3.Mybatis一级、二级缓存</a></li>
-</ul>
-<!-- tocstop -->
-
-</div>
-
-<h2><span id="1mybatis执行流程">1.Mybatis执行流程</span></h2><p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/Snipaste_2023-12-15_10-53-39.png" alt="Snipaste_2023-12-15_10-53-39"></p>
+        <h2><span id="1缓存穿透">1.缓存穿透</span></h2><p><code>概念：</code></p>
 <blockquote>
-<p><strong><code>回答：</code></strong></p>
-<ol>
-<li>读取Mybatis配置文件：mybatis-config.xml加载运行环境和映射文件</li>
-<li>构造会话工厂SqlSessionFactory</li>
-<li>会话工厂创建SqlSession对象（包含了执行SQL语句的所有方法）</li>
-<li>操作数据库的接口，Executor执行器，同时负责查询缓存的维护</li>
-<li>Executor接口的执行方法中有一个MappedStatement类型的参数，封装了映射信息</li>
-<li>输入参数映射</li>
-<li>输出结果映射</li>
-</ol>
+<p>​		缓存穿透是指用户恶意的发起大量请求去查询一个缓存(Redis)和数据库(DB)中都没有的数据，出于容错考虑从数据库(DB)查不到数据则不写入缓存(Redis)这将导致每个请求都要到数据库(DB)中查询，失去了缓存的意义，从而导致数据库因压力过大挂掉。</p>
 </blockquote>
-<h2><span id="2延迟加载使用及原理">2.延迟加载使用及原理</span></h2><blockquote>
-<p><code>开启：lazyLoadingEnabled=[true / false]</code></p>
-<p><code>原理：</code></p>
-<ol>
-<li><p>使用CGLIB创建目标对象的代理对象</p>
-</li>
-<li><p>当调用目标方法user.getOrderList()时，进入拦截器invoke方法，发现user.getOrderList()是null值，执行sql查询order列表</p>
-</li>
-<li><p>把order查询上来，然后调用user.setOrderList(List<order> orderList)，接着完成user.getOrderList()方法的调用</order></p>
-<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98%5CSnipaste_2023-12-15_11-12-07.png" alt="Snipaste_2023-12-15_11-12-07"></p>
-</li>
-</ol>
+<p><code>解决：</code></p>
+<blockquote>
+<p><strong>1、<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%AF%B9%E7%A9%BA%E5%80%BC%E7%BC%93%E5%AD%98&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">对空值缓存</a></strong></p>
+<p>​		我们就可以为这些key的值设置null丢到缓存里面去，后面再出现查询这个key 的请求的时候，直接返回null ,就不用在到数据库中去走一圈了。但是别忘了设置过期时间。</p>
+<p><strong>2、添加<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">参数校验</a></strong></p>
+<p>我们可以在接口层添加校验，不合法的直接返回即可，没必要做后续的操作。</p>
+<p>例如：使用bitmaps类型定义一个可以访问名单，名单id作为bitmaps的偏移量，每次访问时与bitmaps中的id进行比较，如果访问id不在bitmaps中，则进行拦截，不给其访问。</p>
+<p><strong>3、采用<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">布隆过滤器</a></strong></p>
+<p>布隆过滤器（Bloom Filter），Bloom Filter 类似于一个hash set 用来判断某个元素（key）是否存在于某个集合中，不存在return就好了，存在就去查DB刷新缓存KV再return，它的优点是空间效率和查询时间都比一般算法快，缺点是有一定的误识别率和删除困难。</p>
 </blockquote>
-<h2><span id="3mybatis一级-二级缓存">3.Mybatis一级、二级缓存</span></h2><blockquote>
-<p><code>缓存分类：</code></p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>本地缓存</td>
-<td>基于PerpetualCache，本质是一个HashMap</td>
-</tr>
-<tr>
-<td>一级缓存</td>
-<td>作用域是session级别</td>
-</tr>
-<tr>
-<td>二级缓存</td>
-<td>作用域是namespace和mapper的作用域，不依赖于session</td>
-</tr>
-</tbody></table>
-<p><code>一级缓存：</code></p>
+<h2><span id="2缓存雪崩">2.缓存雪崩</span></h2><p><code>概念：</code></p>
+<blockquote>
+<p>缓存雪崩是指大量的应用请求无法在Redis缓存中进行处理，紧接着应用将大量请求发送到数据库层，导致数据库层的压力激增。</p>
+<p>缓存雪崩一般是由两个原因导致的，应对方案也有所不同。第一个原因是：缓存中有大量数据同时过期，导致大量请求无法得到处理。第二个原因是：Redis 缓存实例发生故障宕机了，无法处理请求，这就会导致大量请求一下子积压到数据库层，从而发生缓存雪崩。</p>
+</blockquote>
+<p><code>解决：</code></p>
+<blockquote>
+<p><strong>1、大量热点数据同时失效带来的缓存雪崩问题</strong></p>
+<p>避免热点key同时失效</p>
+<p>使用 EXPIRE命令给每个数据设置过期时间时，给这些数据的过期时间增加一个较小的随机数（例如，随机增加 1~3 分钟）。这样一来，不同数据的过期时间有所差别，但差别又不会太大。既避免了大量数据同时过期，同时也保证了这些数据基本在相近的时间失效，仍然能满足业务需求。</p>
+<h3><span id="2-服务降级">2、服务降级</span></h3><p>所谓的<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">服务降级</a>，是指发生缓存雪崩时，针对不同的数据采取不同的处理方式，例如：</p>
 <ul>
-<li>基于PerpetualCache的HashMap本地缓存，其存储作用域为sqlSession，当sqlSession进行flush或close之后，该Session中的所有Cache就将清空，默认打开一级缓存</li>
+<li>当业务应用访问的是非核心数据时，暂时停止从缓存中查询这些数据，而是直接返回预定义信息、空值或是错误信息；</li>
+<li>当业务应用访问的是核心数据时，仍然允许查询缓存，如果缓存缺失，也可以继续通过数据库读取。</li>
 </ul>
-<pre><code class="java">//获取SqlSesson对象，用来执行sql
-SqlSession sqlSession = sqlSessionFactory.openSession();
-//执行sql
-UserMapper userMapper1 = sqlSession.getMapper(UserMapper.class);
-UserMapper userMapper2 = sqlSession.getMapper(UserMapper.class);
-
-User user  = userMapper1.selectById(6);
-System.out.printLn(user);
-//===========================================
-User user1 = userMapper2.selectByID(6);
-System.out.printLn(user1);
-   
-sqlSession.close();  
-</code></pre>
-<p><code>二级缓存：</code></p>
+<p>这样一来，我们就避免了大量请求因缓存缺失，而积压到<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">数据库系统</a>，保证了数据库系统的正常运行。</p>
+<p><strong>3、Redis 缓存实例发生故障宕机带来的缓存雪崩问题</strong></p>
+<p>从事前预防的角度，我们可以通过主从节点的方式构建 Redis 缓存高可靠集群。如果 Redis缓存的主节点故障宕机了，从节点还可以切换成为主节点，继续提供<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E7%BC%93%E5%AD%98%E6%9C%8D%E5%8A%A1&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">缓存服务</a>，避免了由于缓存实例宕机而导致的缓存雪崩问题。</p>
+<p>如果实际业务系统真发生了Redis 缓存实例不可用的情况，我们可以在业务系统中实现服务熔断或请求限流机制。所谓的服务熔断，是指在发生缓存雪崩时，为了防止引发连锁的数据库雪崩，甚至是整个系统的崩溃，我们暂停业务应用对缓存系统的接口访问。</p>
+</blockquote>
+<h2><span id="3缓存击穿">3.缓存击穿</span></h2><p><code>概念：</code></p>
+<blockquote>
+<p>我们在平常高并发的系统中，大量的请求同时查询一个key时，假设此时这个key正好失效了，就会导致大量的请求都打到数据库上面去，这种现象我们称为击穿。</p>
+<p>这么看缓存击穿和缓存雪崩有点像，但是又有一点不一样，缓存雪崩是因为大面积的<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E7%BC%93%E5%AD%98%E5%A4%B1%E6%95%88&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">缓存失效</a>，打崩了DB，而缓存击穿不同的是「缓存击穿」是指一个Key非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个Key在失效的瞬间，持续的大并发就穿破缓存，直接请求<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E6%95%B0%E6%8D%AE%E5%BA%93&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">数据库</a>。</p>
+</blockquote>
+<p><code>解决：</code></p>
+<blockquote>
+<p><strong>1. 热key不过期</strong></p>
 <ul>
-<li>基于namespace和mapper的作用域起作用的，不是依赖于SQL session，默认也是采用PerpetualCache，HashMap存储</li>
+<li>预先设置热门数据：在Redis高峰访问时期，提前设置热门数据到缓存中，对这些<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E7%83%ADkey&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">热key</a>不设置失效时间，不过这样设置需要区分场景。</li>
+<li>实时调整：实时监控哪些数据热门，实时调整key过期时间。</li>
 </ul>
-<pre><code class="java">//获取sqlSession对象，用来执行sql
-Sql sqlSession1 = sqlSessionFactory.openSession();
-//执行sql
-UserMapper userMapper1 = sqlSession1.getMapper(UserMapper.class);
-User user1 = userMapper1.selectByID(6);
-System.out.printLn(user1);
-sqlSession1.close();
-
-//======================================
-
-Sql sqlSession2 = sqlSessionFactory.openSession();
-UserMapper userMapper2 = sqlSession2.getMapper(UserMapper.class);
-User user2 = userMapper2.selectByID(6);
-System.out.printLn(user2);
-sqlSession2.close();
-</code></pre>
+<p><strong>2. 分布式锁</strong></p>
+<p>为了避免出现缓存击穿的情况，我们可以在第一个请求去查询数据库的时候对他加一个<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3096424189%7D">分布式锁</a>，其余的查询请求都会被阻塞住，直到锁被释放，后面的线程进来发现已经有缓存了，就直接走缓存，从而保护数据库。但是也是由于它会阻塞其他的线程，此时系统吞吐量会下降。</p>
 </blockquote>
 
     </div>
