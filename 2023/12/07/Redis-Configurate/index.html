@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Redis/" style="color: #ff7d73">Redis</a>
+                <a href="/tags/Redis/" style="color: #03a9f4">Redis</a>
             </span>
             
         </span>
@@ -218,6 +218,10 @@
 </li>
 <li><a href="#spring-cache%E7%BC%93%E5%AD%98">Spring-Cache缓存</a><ul>
 <li><a href="#1%E9%85%8D%E7%BD%AE%E7%B1%BB">1.配置类</a></li>
+</ul>
+</li>
+<li><a href="#redissonconfig%E9%85%8D%E7%BD%AE%E7%B1%BB">RedissonConfig配置类</a><ul>
+<li><a href="#1%E9%85%8D%E7%BD%AE%E7%B1%BB-1">1.配置类</a></li>
 </ul>
 </li>
 </ul>
@@ -633,6 +637,24 @@ public class RedisConfig &#123;
     &#125;
 &#125;
 </code></pre>
+<h1><span id="redissonconfig配置类">RedissonConfig配置类</span></h1><h2><span id="1配置类">1.配置类</span></h2><pre><code class="java">@Configuration
+public class RedissonConfig &#123;
+    @Value(&quot;$&#123;spring.redis.host&#125;&quot;)
+    private String host;
+    @Value((&quot;$&#123;spring.redis.port&#125;&quot;))
+    private String port;
+
+    @Bean
+    public RedissonClient redissonClient()&#123;
+        //创建Redisson配置对象
+        Config config = new Config();
+        //关联主机
+        config.useSingleServer().setAddress(&quot;redis://&quot;+host+&quot;:&quot;+port);
+        //创建客户端对象
+        return Redisson.create(config);
+    &#125;
+&#125;
+</code></pre>
 
     </div>
     
@@ -693,4 +715,5 @@ public class RedisConfig &#123;
     ></canvas>
     <script src="/js/background.min.js"></script>
 
-<script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>
+</body>
+</html>
