@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Redis/" style="color: #03a9f4">Redis</a>
+                <a href="/tags/Redis/" style="color: #ffa2c4">Redis</a>
             </span>
             
         </span>
@@ -221,7 +221,8 @@
 </ul>
 </li>
 <li><a href="#redissonconfig%E9%85%8D%E7%BD%AE%E7%B1%BB">RedissonConfig配置类</a><ul>
-<li><a href="#1%E9%85%8D%E7%BD%AE%E7%B1%BB-1">1.配置类</a></li>
+<li><a href="#1maven%E4%BE%9D%E8%B5%96-1">1.Maven依赖</a></li>
+<li><a href="#2%E9%85%8D%E7%BD%AE%E7%B1%BB">2.配置类</a></li>
 </ul>
 </li>
 </ul>
@@ -637,7 +638,26 @@ public class RedisConfig &#123;
     &#125;
 &#125;
 </code></pre>
-<h1><span id="redissonconfig配置类">RedissonConfig配置类</span></h1><h2><span id="1配置类">1.配置类</span></h2><pre><code class="java">@Configuration
+<h1><span id="redissonconfig配置类">RedissonConfig配置类</span></h1><h2><span id="1maven依赖">1.Maven依赖</span></h2><pre><code class="xml">        &lt;!--配置redission--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.redisson&lt;/groupId&gt;
+            &lt;artifactId&gt;redisson-spring-boot-starter&lt;/artifactId&gt;
+            &lt;version&gt;3.17.7&lt;/version&gt;
+            &lt;!--            在引入Redisson 后会报  Failed to start bean &#39;documentationPluginsBootstrapper&#39; 的错误，
+                            断点追踪发现是因为 /actuator 节点报错
+                            这样原因就很明显了，是因为 actuator 与 swagger-ui 冲突
+                            在引入redisson-spring-boot-starter 时会引入 actuator 导致报错
+                            所以我们只需要在引入redisson时排除掉actuator 就可以正常访问了
+            --&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                    &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
+                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<h2><span id="2配置类">2.配置类</span></h2><pre><code class="java">@Configuration
 public class RedissonConfig &#123;
     @Value(&quot;$&#123;spring.redis.host&#125;&quot;)
     private String host;
