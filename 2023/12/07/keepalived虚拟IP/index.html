@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>Categories: 面试题 | LiMao の学习日常</title>
+    <title>keepalived虚拟IP | LiMao の学习日常</title>
     <meta name="author" content="LiMao" />
     <meta name="description" content="welcome to my learning daily life" />
     <meta name="keywords" content="" />
@@ -37,6 +37,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -155,71 +159,20 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
-        
-        
-        
-        <span>
-            <a href="/categories/Linux/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Linux
-            </a>
+            <div class="article">
+    <div>
+        <h1>keepalived虚拟IP</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/12/7
         </span>
         
-        
-        
-        <span>
-            <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                面试题
-            </a>
-        </span>
-        
-        
-        
-        
-        
-        <span>
-            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                设计模式
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/cors/" style="background: #03a9f4">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                cors
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/%E5%B8%B8%E8%A7%81Bug/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                常见Bug
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/" style="background: #00a596">
+        <span class="category">
+            <a href="/categories/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
@@ -228,162 +181,124 @@
         </span>
         
         
-        
-        <span>
-            <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="background: #00bcd4">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                中间件
-            </a>
-        </span>
-        
-        
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/12/14</div>
-            <a href="/2023/12/14/mybatis-All/">
-                <h3>Mybatis面试题</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        面试题
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/Mybatis/" style="color: #00a596">Mybatis</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
+    <div class="content" v-pre>
+        <h2><span id="1安装">1.安装：</span></h2><pre><code class="properties">yum -y install  keepalived 
+
+yum -y install psmisc #按装kill命令
+
+#killall 不可用，可用安装psmisc包解决 
+yum install psmisc  -y
+
+#安装网络工具包，可以显示出当前虚拟IP168对应的真正物理网卡地址(mac地址)。
+yum -y install net-tools
+</code></pre>
+<h2><span id="2脚本文件">2.脚本文件</span></h2><pre><code class="shell">#vim /etc/keepalived/checknginx.sh
+#复制下面内容：
+#!/bin/bash
+A=`ps -C nginx --no-header |wc -l`
+if [ $A -eq 0 ];then
+     /usr/local/nginx/sbin/nginx
+      if [ `ps -C nginx --no-header |wc -l` -eq 0 ];then
+              killall keepalived
+      fi
+fi
+</code></pre>
+<h2><span id="3master配置">3.master配置</span></h2><pre><code class="properties">#vim /etc/keepalived/keepalived.conf
+#复制下面内容：
+global_defs &#123;
+   notification_email &#123;
+     test@qq.com
+   &#125;
+   #发送通知邮件时邮件源地址是谁
+   notification_email_from test@qq.com   
+   smtp_server 127.0.0.1
+   #连接smtp连接超时时间
+   smtp_connect_timeout 30 
+   #机器标识
+   router_id LVS_DEVEL  
+&#125;
+#用来做健康检查的，当时检查失败时会将vrrp_instance的priority减少相应的值。
+  vrrp_script chk_http_port &#123;
+           #监控脚本
+           script &quot;/etc/keepalived/checknginx.sh&quot;       
+           #监控脚本检测周期秒
+           interval 2    
+           #是如果script中的指令执行失败，vrrp_instance的优先级会减少10个点。      
+           weight  -10         
+   &#125;
+vrrp_instance VI_1 &#123;
+    #backup机器配置为BACKUP
+    state MASTER 
+    #绑定的网卡名称
+    interface ens32     
+    #必须与backup机器配置相同
+    virtual_router_id  51  
+    #优先级，要比backup机器高至少50
+    priority 100  
+    #检查间隔，默认1秒 VRRP心跳包的发送周期，单位为s
+    advert_int 1 
+    authentication &#123;
+        #授权类型，必须与backup相同
+        auth_type PASS  
+        #授权密码，必须与backup相同
+        auth_pass 1111   
+    &#125;
+    virtual_ipaddress &#123;
+        #虚拟ip地址，xxx部分必须与nginx网段相同，必须与backup相同
+        192.168.xxx.250   
+    &#125;
+    track_script &#123;
+      chk_http_port
+    &#125;
+&#125;
+</code></pre>
+<h2><span id="4backup配置">4.backup配置</span></h2><pre><code class="properties">#vim /etc/keepalived/keepalived.conf
+#复制下面内容：
+global_defs &#123;
+   notification_email &#123;
+     test@qq.com
+   &#125;
+   notification_email_from test@qq.com
+   smtp_server 127.0.0.1
+   smtp_connect_timeout 30
+   router_id LVS_DEVEL_BAK
+&#125;
+  vrrp_script chk_http_port &#123;
+           script &quot;/etc/keepalived/checknginx.sh&quot;       
+           interval 2                                         
+           weight -10 
+        &#125;
+vrrp_instance VI_1 &#123;
+    state BACKUP
+    interface ens32
+    virtual_router_id 51
+    priority 50
+    advert_int 1
+     authentication &#123;
+        auth_type PASS  
+        auth_pass 1111   
+    &#125; 
+    virtual_ipaddress &#123;
+        192.168.xxx.250   
+    &#125;
+   track_script &#123;
+        chk_http_port
+    &#125; 
+    #不抢占IP，即当keepalived发生切换后，只能配置在BACKUP上 ，
+    #这样避免来回切换带来的系统开销，同时也避免了IP切换带来的系统不稳定性
+    nopreempt                   
+&#125;
+</code></pre>
+
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/12/7</div>
-            <a href="/2023/12/07/Spring-All/">
-                <h3>Spring面试题</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        面试题
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/JavaEE/" style="color: #ffa2c4">JavaEE</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/12/7</div>
-            <a href="/2023/12/07/Thread-All/">
-                <h3>多线程面试题</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        面试题
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/JavaEE/" style="color: #ff7d73">JavaEE</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/12/7</div>
-            <a href="/2023/12/07/Redis-All/">
-                <h3>Redis面试题</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        面试题
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/Redis/" style="color: #ff7d73">Redis</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
+    
+    
+    
     
 </div>
 
@@ -415,6 +330,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
    <canvas
        id="fireworks"
