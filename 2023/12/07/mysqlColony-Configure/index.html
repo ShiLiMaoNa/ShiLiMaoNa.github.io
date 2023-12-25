@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>多线程面试题 | LiMao の学习日常</title>
+    <title>mysqlColony-Configure | LiMao の学习日常</title>
     <meta name="author" content="LiMao" />
     <meta name="description" content="welcome to my learning daily life" />
     <meta name="keywords" content="" />
@@ -161,7 +161,7 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>多线程面试题</h1>
+        <h1>mysqlColony-Configure</h1>
     </div>
     <div class="info">
         <span class="date">
@@ -172,11 +172,11 @@
         </span>
         
         <span class="category">
-            <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">
+            <a href="/categories/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                面试题
+                常用配置类
             </a>
         </span>
         
@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/JavaEE/" style="color: #03a9f4">JavaEE</a>
+                <a href="/tags/Mysql/" style="color: #00a596">Mysql</a>
             </span>
             
         </span>
@@ -197,81 +197,116 @@
     </div>
     
     <div class="content" v-pre>
-        <div class="myToc">
+        <h2><span id="安装mysql">安装mysql</span></h2><pre><code class="properties">#查看已经安装mysql组件：（centos6.9 需要卸载原来的mysql组件）
 
-<!-- toc -->
+     yum list installed | grep mysql
 
-<ul>
-<li><a href="#1%E7%BA%BF%E7%A8%8B%E4%B8%AD%E5%8C%85%E5%90%AB%E4%BA%86%E5%93%AA%E4%BA%9B%E7%8A%B6%E6%80%81-%E7%8A%B6%E6%80%81%E4%B9%8B%E9%97%B4%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%87%E6%8D%A2%E7%9A%84">1.线程中包含了哪些状态、状态之间是如何切换的</a><ul>
-<li><a href="#11%E7%8A%B6%E6%80%81">1.1状态</a></li>
-<li><a href="#12%E5%88%87%E6%8D%A2">1.2切换</a></li>
-</ul>
-</li>
-<li><a href="#2%E5%A6%82%E4%BD%95%E5%81%9C%E6%AD%A2%E4%B8%80%E4%B8%AA%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E7%BA%BF%E7%A8%8B">2.如何停止一个正在运行的线程</a></li>
-<li><a href="#3synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86">3.synchronized关键字的底层原理</a></li>
-</ul>
-<!-- tocstop -->
+     卸载：
 
-</div>
+     yum -y remove mysql-libs.x86_64
 
-<h2><span id="1线程中包含了哪些状态-状态之间是如何切换的">1.线程中包含了哪些状态、状态之间是如何切换的</span></h2><h3><span id="11状态">1.1状态</span></h3><pre><code class="java">    public enum State &#123;
-        /**
-         * 尚未启动的线程
-         */
-        NEW,
+     #centos7.0之后，上面两句可以省略
 
-        /**
-        * 可运行的线程状态
-         */
-        RUNNABLE,
+#如果wget没有安装
 
-        /**
-        * 线程阻塞等待监视锁的线程状态
-         */
-        BLOCKED,
+    yum -y install wget
 
-        /**
-           * 等待线程的线程状态 
-         */
-        WAITING,
+#下载yum源
 
-        /**
-        * 具有指定等待时间的等待线程状态
-         */
-        TIMED_WAITING,
+    wget http://repo.mysql.com/mysql-community-release-el6-5.noarch.rpm
 
-        /**
-        * 已终止线程的线程状态。线程已经完成执行
-         */
-        TERMINATED;
-    &#125;
+#安装yum源
+
+    rpm -ivh mysql-community-release-el6-5.noarch.rpm
+
+#查看yum源中mysql有效版本
+
+    yum repolist all | grep mysql
+
+#使用下载yum源安装
+
+    yum install mysql-community-server -y
+
+#查看mysql服务是否启动
+
+    service mysqld status 
+
+#启动mysql服务
+
+    service mysqld start 
+
+#使用mysql客户端命令，连接mysql，默认密码为空
+
+   mysql -u root -p   回车  再回车（默认密码为空）
+
+
+#修改密码（使用空密码不太好）：
+
+   update user set password=password(&#39;tiger&#39;) where user=&#39;root&#39; ;
+
+   password(&#39;tiger&#39;) 加密，把tiger密码加密存储
+
+
+#刷新权限，让密码生效：
+   flush privileges;
+
+#退出：
+   quit
+   
+#修改允许远程连接为统配符%，这样远程的IP就可以连接
+   update user set host=&#39;%&#39; where host=&#39;::1&#39;;
+   
+#刷新权限（让修改生效）：
+   flush privileges;     
 </code></pre>
-<h3><span id="12切换">1.2切换</span></h3><blockquote>
-<ul>
-<li>创建线程是<strong>新建</strong>(NEW)状态</li>
-<li>调用了start()方法转变为<strong>可执行状态</strong>(RUNNALBE)</li>
-<li>线程获取到了CPU的执行权，执行结束是<strong>终止状态</strong>(TERMINATED)</li>
-<li>在可执行状态的过程中，如果没有获取CPU的执行权，可能变为其它状态</li>
-</ul>
-<ol>
-<li>如果没有获取到锁(synchronized或lock)进入<strong>阻塞状态</strong>，获得锁再切换为可执行状态</li>
-<li>如果线程调用了wait()方法进入等待状态，其它线程调用了notify()唤醒后可切换为<strong>可执行状态</strong></li>
-<li>如果线程调用了sleep()方法，进入<strong>计时等待状态</strong>，到时间后可切换为可执行状态</li>
-</ol>
-</blockquote>
-<h2><span id="2如何停止一个正在运行的线程">2.如何停止一个正在运行的线程</span></h2><blockquote>
-<p><code>有三种方式停止线程：</code></p>
-<ul>
-<li>使用退出表只，使线程正常退出，就是当run方法完成后线程终止</li>
-<li>使用stop方法强行终止(不推荐，已作废)</li>
-<li>使用interrupt方法中断线程</li>
-</ul>
-<ol>
-<li>打断阻塞的线程(sleep、wait、join)，线程会抛出InterruptedException异常</li>
-<li>打断正常线程，可以根据打断状态来标记是否退出线程</li>
-</ol>
-</blockquote>
-<h2><span id="3synchronized关键字的底层原理">3.synchronized关键字的底层原理</span></h2>
+<h2><span id="配置主从">配置主从</span></h2><p><code>主机：</code></p>
+<pre><code class="properties">#配置主从：
+    master:
+ #主服务器上修改配置文件，添加日志操作
+        vim /etc/my.cnf     mysql1操作
+        
+ #修改第12行  binary.log 日志文件名称可以随便起
+        log_bin=binary_log
+        
+ #添加一行当前服务器唯一识别
+        server-id=111
+        
+ #添加从机关联同步配置
+        log-slave-updates
+
+ #重启服务，让修改生效
+        service mysqld restart
+        
+ #登录mysql
+        mysql -uroot -ptiger
+        
+ #查看master状态
+        show master status;
+</code></pre>
+<p><code>从机：</code></p>
+<pre><code class="properties">  #slave：
+        #vim /etc/my.cnf
+    
+    #添加一行
+      　server-id=112
+    
+    #重启服务，让修改生效
+         service mysqld restart
+    
+    #登录mysql
+       mysql -uroot -ptiger
+    
+    #关闭slave(第一次操作不需要，但是以后如果修改该服务器为其他服务的从节点时，需要先停止slave服务)
+      stop slave;
+</code></pre>
+<p><code>命令：</code></p>
+<pre><code class="properties"> #启动slave服务：
+         start slave;
+         
+ #查看slave的状态
+         show slave status \G;
+</code></pre>
+
     </div>
     
     
