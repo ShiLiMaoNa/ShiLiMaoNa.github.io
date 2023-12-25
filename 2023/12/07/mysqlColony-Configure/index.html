@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Mysql/" style="color: #00a596">Mysql</a>
+                <a href="/tags/Mysql/" style="color: #ff7d73">Mysql</a>
             </span>
             
         </span>
@@ -298,6 +298,11 @@
     
     #关闭slave(第一次操作不需要，但是以后如果修改该服务器为其他服务的从节点时，需要先停止slave服务)
       stop slave;
+      
+    #配置当前服务器为master服务器的从机
+      change master to master_host=&#39;192.168.170.111&#39;,master_user=&#39;root&#39;,master_password=&#39;tiger&#39;,master_log_file=&#39;binlog.000001&#39;,master_log_pos=120;
+     #启动slave服务：
+      start slave;
 </code></pre>
 <p><code>命令：</code></p>
 <pre><code class="properties"> #启动slave服务：

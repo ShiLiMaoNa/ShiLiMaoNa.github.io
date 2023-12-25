@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>Categories: 常用配置类 | LiMao の学习日常</title>
+    <title>mycat-Configurtion | LiMao の学习日常</title>
     <meta name="author" content="LiMao" />
     <meta name="description" content="welcome to my learning daily life" />
     <meta name="keywords" content="" />
@@ -37,6 +37,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -155,69 +159,20 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
-        
-        
-        
-        <span>
-            <a href="/categories/Linux/" style="background: #03a9f4">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Linux
-            </a>
+            <div class="article">
+    <div>
+        <h1>mycat-Configurtion</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/12/14
         </span>
         
-        
-        
-        <span>
-            <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                面试题
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                设计模式
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/cors/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                cors
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/%E5%B8%B8%E8%A7%81Bug/" style="background: #00bcd4">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                常见Bug
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
+        <span class="category">
+            <a href="/categories/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
@@ -226,151 +181,47 @@
         </span>
         
         
-        
-        
-        
-        <span>
-            <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="background: #00bcd4">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                中间件
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/mysql/" style="color: #03a9f4">mysql</a>
+            </span>
+            
         </span>
         
-        
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/12/14</div>
-            <a href="/2023/12/14/mycat-configure/">
-                <h3>mycat-Configurtion</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        常用配置类
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/mysql/" style="color: #00a596">mysql</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
+    <div class="content" v-pre>
+        <h2><span id="server配置">server配置</span></h2><p>​    server.xml 几乎保存了所有 mycat 需要的系统配置信息（全局配置，在server.xml配置可以全局产生影响）。其在代码内直接的映射类为 SystemConfig 类。server.xml 中的标签本就不多，这个标签主要用于定义登录 mycat 的用户（密码）和权限（能问那些表，以及针对该表的访问权限）。</p>
+<p>​     vim &#x2F;usr&#x2F;mycat&#x2F;conf&#x2F;server.xml</p>
+<p>   <img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/clip_image002.gif" alt="图片"></p>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/clip_image004.gif" alt="图片"></p>
+<h2><span id="schema配置">schema配置</span></h2><p>​    Schema.xml 作为 MyCat 中重要的配置文件之一，管理着 MyCat 的逻辑库、表、分片规则、DataNode（数据节点，分表分库专用） 以及 DataSource（数据源）。弄懂这些配置，是正确使用 MyCat 的前提。这里就一层层对该文件进行解析。</p>
+<p>​      vim &#x2F;usr&#x2F;mycat&#x2F;conf&#x2F;schema.xml</p>
+<p>​      <img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/clip_image006.gif" alt="图片"></p>
+<p>  删除了6到32行</p>
+<p>   底行模式中使用  :6,32d</p>
+<p><a target="_blank" rel="noopener" href="http://dl.mycat.org.cn/mycat-definitive-guide.pdf">http://dl.mycat.org.cn/mycat-definitive-guide.pdf</a></p>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/clip_image008.gif" alt="图片"></p>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/clip_image010.gif" alt="图片"></p>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/clip_image012.gif" alt="图片"></p>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/clip_image014.gif" alt="图片"></p>
+<h2><span id="log4j2配置">log4j2配置</span></h2><p><strong>修改<strong><strong>log4j2.xml</strong></strong>，记录日志，不配置看到的执行的<strong><strong>sql</strong></strong>信息</strong></p>
+<p>vim &#x2F;usr&#x2F;mycat&#x2F;conf&#x2F;log4j2.xml</p>
+<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98/clip_image016.gif" alt="图片"></p>
+
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/12/7</div>
-            <a href="/2023/12/07/Redis-Configurate/">
-                <h3>redis-configuration</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        常用配置类
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/Redis/" style="color: #00bcd4">Redis</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/12/7</div>
-            <a href="/2023/12/07/keepalived%E8%99%9A%E6%8B%9FIP/">
-                <h3>keepalived虚拟IP</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        常用配置类
-                    </a>
-                </span>
-                
-                
-            </div>
-        </div>
-    </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/12/7</div>
-            <a href="/2023/12/07/mysqlColony-Configure/">
-                <h3>mysqlColony-Configure</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        常用配置类
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/Mysql/" style="color: #ffa2c4">Mysql</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
+    
+    
+    
     
 </div>
 
@@ -402,6 +253,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
    <canvas
        id="fireworks"
