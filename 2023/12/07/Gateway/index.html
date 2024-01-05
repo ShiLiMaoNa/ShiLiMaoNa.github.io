@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>多线程面试题 | LiMao の学习日常</title>
+    <meta name="author" content="LiMao" />
+    <meta name="description" content="welcome to my learning daily life" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/myAvatar.jpg" />
+
+    <link rel="preconnect" href="https://cdn.staticfile.org" />
+<script src="https://cdn.staticfile.org/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.org/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.org/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.org/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.org/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.org/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+    <canvas id="canvas" style="position: fixed; width: 2000px; height: 2000px; top: 0px">你的浏览器不支持canvas</canvas>
+    <script src="/js/meteor.js"></script>
+
+
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>少年不惧岁月长 彼方尚有荣光在</p>
+                    <img src="/images/loading.gif"/>
+                </div>
+            </div>
+        </transition>
+        
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>LIMAO の学习日常</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;LIMAO の学习日常</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>多线程面试题</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/12/7
+        </span>
+        
+        <span class="category">
+            <a href="/categories/Cloud/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Cloud
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/Gateway/" style="color: #03a9f4">Gateway</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <div class="myToc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#1%E4%BE%9D%E8%B5%96">1.依赖</a></li>
+<li><a href="#2%E9%85%8D%E7%BD%AE">2.配置</a></li>
+<li><a href="#3%E5%85%A8%E5%B1%80%E6%8B%A6%E6%88%AA">3.全局拦截</a></li>
+<li><a href="#4%E7%BD%91%E5%85%B3cors">4.网关Cors</a></li>
+<li><a href="#5%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA">5.链路追踪</a></li>
+<li><a href="#6%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E8%A1%A8%E7%BB%93%E6%9E%84">6.数据持久化表结构</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
+
+
+
+<h2><span id="1依赖">1.依赖</span></h2><pre><code class="xml">        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-gateway&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<h2><span id="2配置">2.配置</span></h2><pre><code class="yaml">spring:
+    cloud:
+        gateway:
+              discovery:
+                locator:
+                  enabled: true
+#              routes:
+#                - id: route_product
+#                  uri: lb://productService
+#                  predicates:
+#                    - Path=/product/**
+</code></pre>
+<h2><span id="3全局拦截">3.全局拦截</span></h2><pre><code class="java">@Component
+public class IllegalCharacterFilter implements GlobalFilter, Ordered &#123;
+    //基本属性依赖注入配置的值
+    @Value(&quot;$&#123;illegal_char&#125;&quot;)
+    private String illegalChar;
+    @Override
+    public Mono&lt;Void&gt; filter(ServerWebExchange exchange, GatewayFilterChain chain) &#123;
+        System.out.println(&quot;经过了非法字符过滤器。。。。。。。。。。。。。。。。。。&quot;);
+        //获取request对象
+        ServerHttpRequest request = exchange.getRequest();
+        //获取response对象
+        ServerHttpResponse response = exchange.getResponse();
+        //获取所有请求参数的值，判断是否含有非法字符
+          //http://192.168.28.173:14966/order/queryById?id=3&amp;a=1&amp;b=2&amp;c=3&amp;c=4tmd4
+          //获取请求的所有参数及值  id=3&amp;a=1&amp;b=2&amp;c=3&amp;c=4tmd4  checkbox =  [&quot;体育&quot;,&quot;读书&quot;]
+        MultiValueMap&lt;String, String&gt; queryParamsMap = request.getQueryParams();
+          // MultiValueMap是Map的子类  遍历queryParamsMap [&#123;key=id value=[3]&#125;,&#123;key=a value=[1]&#125;....]
+        Set&lt;Map.Entry&lt;String, List&lt;String&gt;&gt;&gt; queryParamsMapEntries = queryParamsMap.entrySet();
+          //获取非法字符并分割为数组 [tmd,nnd,fuck,falungong,guomindang]
+        String[] illegalCharArray = illegalChar.split(&quot;,&quot;);
+          //定义标识符，判断是否含有非法字符
+        boolean isContainsIllegalChar = false;
+          //循环遍历
+        for (Map.Entry&lt;String, List&lt;String&gt;&gt; queryParamsMapEntry : queryParamsMapEntries) &#123;
+            String key = queryParamsMapEntry.getKey();
+            //第一次 id  第二次  a ....
+            System.out.println(&quot;key:&quot;+key);
+            //第一次 3  第二次  1 .... 第四次 4tmd4
+            //  &quot;tmd,nnd,fuck,falungong,guomindang&quot;.contains(4tmd4)  判断不对
+            String value = queryParamsMapEntry.getValue().get(0);
+            System.out.println(&quot;value:&quot;+value);
+            //循环遍历非法数组
+            for (String illegalChar : illegalCharArray) &#123;
+                //第1次 tmd 第2次 nnd .......
+                //判断是否含有
+                if(value.contains(illegalChar))&#123;
+                    //定义返回map对象
+                    Map map = new HashMap();
+                    map.put(&quot;code&quot;, ResultStatus.ILLEGAL_CHAR_ERROR.getReturnCode());
+                    map.put(&quot;msg&quot;, ResultStatus.ILLEGAL_CHAR_ERROR.getReturnMsg());
+                    byte[] bytesMap = null;
+                    try &#123;
+                        //把map转换为字节数组
+                        bytesMap = JSON.toJSONString(map).getBytes(&quot;GBK&quot;);
+                    &#125; catch (UnsupportedEncodingException e) &#123;
+                        e.printStackTrace();
+                    &#125;
+                    //spring 提供数据缓冲类  使用response.bufferFactory()中提供的wrap方法，把字节数组转换为DataBuffer
+                    DataBuffer dataBuffer = response.bufferFactory().wrap(bytesMap);
+                    //writeWith 向响应对象中写入影响数据  需要的是Publisher接口的实现类   Mono就是该接口的实现类
+                    return response.writeWith(Mono.just(dataBuffer));
+                    /*isContainsIllegalChar = true;
+                    break;*/
+                &#125;
+            &#125;
+        &#125;
+        //如果不是，让程序继续运行
+        return chain.filter(exchange);
+    &#125;
+    @Override
+    public int getOrder() &#123;
+        return 5;
+    &#125;
+&#125;
+</code></pre>
+<h2><span id="4网关cors">4.网关Cors</span></h2><pre><code class="yaml">spring:
+  cloud:
+    gateway:
+      globalcors: # 全局的跨域处理
+        add-to-simple-url-handler-mapping: true  # 解决options请求被拦截问题
+        corsConfigurations:
+          &#39;[/**]&#39;:
+            allowedOrigins: # 允许哪些网站的跨域请求
+              - &quot;*&quot;  #所有网站
+              #- &quot;http://localhost:8090&quot; #指定网站
+              #- &quot;http://www.leyou.com&quot;
+            allowedMethods: # 允许的跨域ajax的请求方式
+              - &quot;*&quot;
+              #- &quot;GET&quot;
+              #- &quot;POST&quot;
+              #- &quot;DELETE&quot;
+              #- &quot;PUT&quot;
+              #- &quot;OPTIONS&quot;
+            allowedHeaders: &quot;*&quot; # 允许在请求中携带的头信息
+            allowCredentials: true # 是否允许携带cookie
+            maxAge: 360000 # 这次跨域检测的有效期
+</code></pre>
+<h2><span id="5链路追踪">5.链路追踪</span></h2><pre><code class="xml">    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-sleuth&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-zipkin&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+</code></pre>
+<pre><code class="yaml">#追踪的时候必须开启日志的记录：(不开启就没有办法查看)
+logging:
+  level:
+    org.springframework.web.servlet.DispatcherServlet: debug
+    org.springframework.cloud.sleuth: debug
+    
+    
+spring:
+ zipkin:
+  base-url: http://127.0.0.1:9411/ #zipkin server的请求地址  
+  discoveryClientEnabled: false #让nacos把它当成一个URL，而不要当成一个服务
+ sleuth:
+  sampler: 
+    probability: 1.0 #采样的百分比
+</code></pre>
+<h2><span id="6数据持久化表结构">6.数据持久化表结构</span></h2><pre><code class="sql">CREATE TABLE IF NOT EXISTS zipkin_spans (
+        `trace_id_high` BIGINT NOT NULL DEFAULT 0 COMMENT &#39;If non zero, this
+means the trace uses 128 bit traceIds instead of 64 bit&#39;,
+        `trace_id` BIGINT NOT NULL,
+`id` BIGINT NOT NULL,
+`name` VARCHAR(255) NOT NULL,
+`parent_id` BIGINT,
+`debug` BIT(1),
+`start_ts` BIGINT COMMENT &#39;Span.timestamp(): epoch micros used for endTs
+query and to implement TTL&#39;,
+`duration` BIGINT COMMENT &#39;Span.duration(): micros used for minDuration
+and maxDuration query&#39;
+    ) ENGINE=InnoDB ROW_FORMAT=COMPRESSED CHARACTER SET=utf8 COLLATE
+utf8_general_ci;
+    ALTER TABLE zipkin_spans ADD UNIQUE KEY(`trace_id_high`, `trace_id`, `id`)
+COMMENT &#39;ignore insert on duplicate&#39;;
+ALTER TABLE zipkin_spans ADD INDEX(`trace_id_high`, `trace_id`, `id`) COMMENT &#39;for joining with zipkin_annotations&#39;;
+    ALTER TABLE zipkin_spans ADD INDEX(`trace_id_high`, `trace_id`) COMMENT &#39;for
+getTracesByIds&#39;;
+    ALTER TABLE zipkin_spans ADD INDEX(`name`) COMMENT &#39;for getTraces and
+getSpanNames&#39;;
+    ALTER TABLE zipkin_spans ADD INDEX(`start_ts`) COMMENT &#39;for getTraces
+ordering and range&#39;;
+    CREATE TABLE IF NOT EXISTS zipkin_annotations (
+        `trace_id_high` BIGINT NOT NULL DEFAULT 0 COMMENT &#39;If non zero, this
+means the trace uses 128 bit traceIds instead of 64 bit&#39;,
+        `trace_id` BIGINT NOT NULL COMMENT &#39;coincides with
+zipkin_spans.trace_id&#39;,
+`span_id` BIGINT NOT NULL COMMENT &#39;coincides with zipkin_spans.id&#39;,
+        `a_key` VARCHAR(255) NOT NULL COMMENT &#39;BinaryAnnotation.key or
+Annotation.value if type == -1&#39;,
+        `a_value` BLOB COMMENT &#39;BinaryAnnotation.value(), which must be smaller
+than 64KB&#39;,
+`a_type` INT NOT NULL COMMENT &#39;BinaryAnnotation.type() or -1 if
+Annotation&#39;,
+        `a_timestamp` BIGINT COMMENT &#39;Used to implement TTL;
+Annotation.timestamp or zipkin_spans.timestamp&#39;,
+        `endpoint_ipv4` INT COMMENT &#39;Null when Binary/Annotation.endpoint is
+null&#39;,
+        `endpoint_ipv6` BINARY(16) COMMENT &#39;Null when Binary/Annotation.endpoint
+is null, or no IPv6 address&#39;,
+        `endpoint_port` SMALLINT COMMENT &#39;Null when Binary/Annotation.endpoint
+is null&#39;,
+        `endpoint_service_name` VARCHAR(255) COMMENT &#39;Null when
+Binary/Annotation.endpoint is null&#39;
+    ) ENGINE=InnoDB ROW_FORMAT=COMPRESSED CHARACTER SET=utf8 COLLATE
+utf8_general_ci;
+ALTER TABLE zipkin_annotations ADD UNIQUE KEY(`trace_id_high`, `trace_id`, `span_id`, `a_key`, `a_timestamp`) COMMENT &#39;Ignore insert on duplicate&#39;;
+    ALTER TABLE zipkin_annotations ADD INDEX(`trace_id_high`, `trace_id`,
+`span_id`) COMMENT &#39;for joining with zipkin_spans&#39;;
+    ALTER TABLE zipkin_annotations ADD INDEX(`trace_id_high`, `trace_id`)
+COMMENT &#39;for getTraces/ByIds&#39;;
+ALTER TABLE zipkin_annotations ADD INDEX(`endpoint_service_name`) COMMENT &#39;for getTraces and getServiceNames&#39;;
+ALTER TABLE zipkin_annotations ADD INDEX(`a_type`) COMMENT &#39;for getTraces&#39;;
+    ALTER TABLE zipkin_annotations ADD INDEX(`a_key`) COMMENT &#39;for getTraces&#39;;
+    ALTER TABLE zipkin_annotations ADD INDEX(`trace_id`, `span_id`, `a_key`)
+COMMENT &#39;for dependencies job&#39;;
+    CREATE TABLE IF NOT EXISTS zipkin_dependencies (
+        `day` DATE NOT NULL,
+        `parent` VARCHAR(255) NOT NULL,
+        `child` VARCHAR(255) NOT NULL,
+        `call_count` BIGINT
+    ) ENGINE=InnoDB ROW_FORMAT=COMPRESSED CHARACTER SET=utf8 COLLATE
+utf8_general_ci;
+    ALTER TABLE zipkin_dependencies ADD UNIQUE KEY(`day`, `parent`, `child`);
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 LiMao の学习日常
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;LiMao
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+   <canvas
+       id="fireworks"
+       style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+   ></canvas>
+   <script src="https://cdn.staticfile.org/animejs/3.2.1/anime.min.js"></script>
+   <script src="/js/fireworks.min.js"></script>
+
+
+    <canvas
+        id="background"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+    ></canvas>
+    <script src="/js/background.min.js"></script>
+
+</body>
+</html>

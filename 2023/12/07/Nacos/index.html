@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>设计模式 | LiMao の学习日常</title>
+    <title>多线程面试题 | LiMao の学习日常</title>
     <meta name="author" content="LiMao" />
     <meta name="description" content="welcome to my learning daily life" />
     <meta name="keywords" content="" />
@@ -38,9 +38,6 @@
 
 <script src="/js/lib/preview.js"></script>
 
-
-<script src="https://cdn.staticfile.org/crypto-js/4.2.0/crypto-js.min.js"></script>
-<script src="/js/lib/crypto.js"></script>
 
 
 
@@ -164,42 +161,118 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>设计模式</h1>
+        <h1>多线程面试题</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2023/12/14
+            2023/12/7
         </span>
         
         <span class="category">
-            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                设计模式
+                面试题
             </a>
         </span>
         
         
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/JavaEE/" style="color: #00bcd4">JavaEE</a>
+            </span>
+            
+        </span>
+        
     </div>
     
-    
-    <input
-        id="crypto"
-        :class="['input', cryptoStatus]"
-        :disabled="cryptoStatus === 'success'"
-        ref="crypto"
-        placeholder="文章被加密，请输入密码"
-        data-encrypted="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"
-        data-shasum="5c43c51d53763851faf6f17c7ecfc599e45443c788421b8dab45e41e4772d9fa"
-        v-model="crypto"
-    />
-    <transition name="fade">
-        <div class="content" ref="content" v-show="cryptoStatus === 'success'"></div>
-    </transition>
+    <div class="content" v-pre>
+        <div class="myToc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#1%E7%BA%BF%E7%A8%8B%E4%B8%AD%E5%8C%85%E5%90%AB%E4%BA%86%E5%93%AA%E4%BA%9B%E7%8A%B6%E6%80%81-%E7%8A%B6%E6%80%81%E4%B9%8B%E9%97%B4%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%87%E6%8D%A2%E7%9A%84">1.线程中包含了哪些状态、状态之间是如何切换的</a><ul>
+<li><a href="#11%E7%8A%B6%E6%80%81">1.1状态</a></li>
+<li><a href="#12%E5%88%87%E6%8D%A2">1.2切换</a></li>
+</ul>
+</li>
+<li><a href="#2%E5%A6%82%E4%BD%95%E5%81%9C%E6%AD%A2%E4%B8%80%E4%B8%AA%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E7%BA%BF%E7%A8%8B">2.如何停止一个正在运行的线程</a></li>
+<li><a href="#3synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86">3.synchronized关键字的底层原理</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
+
+<h2><span id="1线程中包含了哪些状态-状态之间是如何切换的">1.线程中包含了哪些状态、状态之间是如何切换的</span></h2><h3><span id="11状态">1.1状态</span></h3><pre><code class="java">    public enum State &#123;
+        /**
+         * 尚未启动的线程
+         */
+        NEW,
+
+        /**
+        * 可运行的线程状态
+         */
+        RUNNABLE,
+
+        /**
+        * 线程阻塞等待监视锁的线程状态
+         */
+        BLOCKED,
+
+        /**
+           * 等待线程的线程状态 
+         */
+        WAITING,
+
+        /**
+        * 具有指定等待时间的等待线程状态
+         */
+        TIMED_WAITING,
+
+        /**
+        * 已终止线程的线程状态。线程已经完成执行
+         */
+        TERMINATED;
+    &#125;
+</code></pre>
+<h3><span id="12切换">1.2切换</span></h3><blockquote>
+<ul>
+<li>创建线程是<strong>新建</strong>(NEW)状态</li>
+<li>调用了start()方法转变为<strong>可执行状态</strong>(RUNNALBE)</li>
+<li>线程获取到了CPU的执行权，执行结束是<strong>终止状态</strong>(TERMINATED)</li>
+<li>在可执行状态的过程中，如果没有获取CPU的执行权，可能变为其它状态</li>
+</ul>
+<ol>
+<li>如果没有获取到锁(synchronized或lock)进入<strong>阻塞状态</strong>，获得锁再切换为可执行状态</li>
+<li>如果线程调用了wait()方法进入等待状态，其它线程调用了notify()唤醒后可切换为<strong>可执行状态</strong></li>
+<li>如果线程调用了sleep()方法，进入<strong>计时等待状态</strong>，到时间后可切换为可执行状态</li>
+</ol>
+</blockquote>
+<h2><span id="2如何停止一个正在运行的线程">2.如何停止一个正在运行的线程</span></h2><blockquote>
+<p><code>有三种方式停止线程：</code></p>
+<ul>
+<li>使用退出表只，使线程正常退出，就是当run方法完成后线程终止</li>
+<li>使用stop方法强行终止(不推荐，已作废)</li>
+<li>使用interrupt方法中断线程</li>
+</ul>
+<ol>
+<li>打断阻塞的线程(sleep、wait、join)，线程会抛出InterruptedException异常</li>
+<li>打断正常线程，可以根据打断状态来标记是否退出线程</li>
+</ol>
+</blockquote>
+<h2><span id="3synchronized关键字的底层原理">3.synchronized关键字的底层原理</span></h2>
+    </div>
     
     
     

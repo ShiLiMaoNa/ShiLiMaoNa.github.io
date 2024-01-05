@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>设计模式 | LiMao の学习日常</title>
+    <title>Tags: Gateway | LiMao の学习日常</title>
     <meta name="author" content="LiMao" />
     <meta name="description" content="welcome to my learning daily life" />
     <meta name="keywords" content="" />
@@ -37,13 +37,6 @@
 
 
 <script src="/js/lib/preview.js"></script>
-
-
-<script src="https://cdn.staticfile.org/crypto-js/4.2.0/crypto-js.min.js"></script>
-<script src="/js/lib/crypto.js"></script>
-
-
-
 
 
 
@@ -162,50 +155,149 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div class="article">
-    <div>
-        <h1>设计模式</h1>
-    </div>
-    <div class="info">
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/12/14
-        </span>
+            <div id="archives">
+    
+    <div class="categories-tags">
         
-        <span class="category">
-            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+        
+        
+        <span>
+            <a href="/tags/Shell/" style="background: #00a596">
                 <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                    <i class="fa-solid fa-tags fa-fw"></i>
                 </span>
-                设计模式
+                Shell
             </a>
         </span>
         
         
+        
+        <span>
+            <a href="/tags/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" style="background: #00bcd4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                Linux常用命令
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/JavaEE/" style="background: #ff7d73">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                JavaEE
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/Redis/" style="background: #ffa2c4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                Redis
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/Mybatis/" style="background: #00a596">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                Mybatis
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB/" style="background: #00bcd4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                常用配置类
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/Mysql/" style="background: #03a9f4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                Mysql
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/mysql/" style="background: #00bcd4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                mysql
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/Gateway/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                Gateway
+            </a>
+        </span>
+        
+        
+        
+        
     </div>
     
-    
-    <input
-        id="crypto"
-        :class="['input', cryptoStatus]"
-        :disabled="cryptoStatus === 'success'"
-        ref="crypto"
-        placeholder="文章被加密，请输入密码"
-        data-encrypted="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"
-        data-shasum="5c43c51d53763851faf6f17c7ecfc599e45443c788421b8dab45e41e4772d9fa"
-        v-model="crypto"
-    />
-    <transition name="fade">
-        <div class="content" ref="content" v-show="cryptoStatus === 'success'"></div>
-    </transition>
-    
-    
-    
-    
-    
-    
+    <div class="timeline">
+        <div class="timeline-tail"></div>
+        <div class="timeline-content">
+            <div class="item-time">2023/12/7</div>
+            <a href="/2023/12/07/Gateway/">
+                <h3>多线程面试题</h3>
+            </a>
+            <div class="info">
+                
+                <span class="category">
+                    <a href="/categories/Cloud/">
+                        <span class="icon">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </span>
+                        Cloud
+                    </a>
+                </span>
+                
+                
+                <span class="tags">
+                    <span class="icon">
+                        <i class="fa-solid fa-tags fa-fw"></i>
+                    </span>
+                    
+                    
+                    <span class="tag">
+                        
+                        <a href="/tags/Gateway/" style="color: #00a596">Gateway</a>
+                    </span>
+                    
+                </span>
+                
+            </div>
+        </div>
+    </div>
     
 </div>
 
@@ -237,12 +329,6 @@
         
     </div>
     <script src="/js/main.js"></script>
-    
-    
-
-
-
-
     
    <canvas
        id="fireworks"
